@@ -25,10 +25,3 @@ proguard/
 
 # Log Files
 *.log
-
-#JNI binaries
-app/src/main/jniLibs/
-app/src/main/jni/armeabi
-app/src/main/jni/x86
-app/src/main/jni/mips
-app/src/main/jni/armeabi-v7a

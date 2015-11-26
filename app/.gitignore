@@ -30,3 +30,10 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+# JNI binaries
+src/main/jniLibs/*
+src/main/jni/armeabi/
+src/main/jni/x86/
+src/main/jni/mips/
+src/main/jni/armeabi-v7a/
