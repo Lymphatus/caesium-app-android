@@ -33,7 +33,7 @@
 
 ##### RESOURCES
 * CaesiumAPP website - [http://saerasoft.com/caesium/app](http://saerasoft.com/caesium/app)
-* CaesiumPH Git Repository - [https://github.com/Lymphatus/caesium-app-android](https://github.com/Lymphatus/caesium-app-android)
+* CaesiumAPP Android Git Repository - [https://github.com/Lymphatus/caesium-app-android](https://github.com/Lymphatus/caesium-app-android)
 * Author website - SaeraSoft - [http://saerasoft.com](http://saerasoft.com)
 * Author Twitter [http://twitter.com/MatteoPaonessa](http://twitter.com/MatteoPaonessa)
 
