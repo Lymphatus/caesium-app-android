@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Caesium</string>
+
+    <!-- Menu actions -->
+    <string name="action_settings">Settings</string>
+
+    <!-- Launcher Activity -->
+    <string name="title_activity_launch">Caesium</string>
+
+    <!-- Main Activity -->
+    <string name="main_uncompressed">Uncompressed</string>
+
+    <string name="main_list_header_total">Total</string>
+
+    <!-- Preferences -->
+    <string name="pref_header_info">Info</string>
+    <string name="pref_header_compression">Compression</string>
+    <string name="pref_compression_level_title">Compression level</string>
+    <string name="pref_compression_level_default">65</string>
+    <string-array name="pref_compression_level_entries">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Lossless</item>
+    </string-array>
+    <string-array name="pref_compression_level_values">
+        <item>80</item>
+        <item>65</item>
+        <item>50</item>
+        <item>0</item>
+    </string-array>
+    <string name="pref_compression_exif_title">EXIF</string>
+    <string name="pref_compression_exif_default">0</string>
+    <string-array name="pref_compression_exif_entries">
+        <item>Strip all metadata</item>
+        <item>Keep essentials</item>
+        <item>Keep all</item>
+    </string-array>
+    <string-array name="pref_compression_exif_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="pref_info_version_title">Version</string>
+    <string name="pref_info_usage_title">Usage reports</string>
+    <string name="pref_info_usage_summary">Send anonymous usage reports</string>
+
+</resources>

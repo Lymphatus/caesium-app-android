@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:tag="mainFragment"
+    tools:context="com.saerasoft.caesium.MainActivity$MainFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:background="@color/purple_700"
+        android:paddingBottom="20dp"
+        android:paddingRight="30dp">
+
+        <TextView
+            android:id="@+id/mainImagesCountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="sans-serif-thin"
+            android:paddingLeft="72dp"
+            android:text="830"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/mainImagesTextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/mainImagesCountTextView"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/mainImagesCountTextView"
+            android:layout_toRightOf="@+id/mainImagesCountTextView"
+            android:fontFamily="sans-serif-light"
+            android:paddingLeft="5dp"
+            android:text="Uncompressed"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/mainHeadersListView"
+            style="@style/Base.Widget.AppCompat.ListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="false"
+            android:clipToPadding="false"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1dp"
+            android:drawSelectorOnTop="true"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:longClickable="false"
+            android:overScrollFooter="@android:color/transparent"
+            android:overScrollHeader="@android:color/transparent"
+            android:paddingBottom="70dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/mainCompressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/logo2x"
+            app:elevation="10dp" />
+
+        <ProgressBar
+            android:id="@+id/mainProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-7dp"
+            android:backgroundTint="@color/white"
+            android:progressBackgroundTint="@color/white"
+            android:progressTint="@color/teal_400"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>

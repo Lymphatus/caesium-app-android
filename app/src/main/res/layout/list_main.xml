@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:clickable="false"
+    android:longClickable="true"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- TODO Remove static text -->
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/listEntryLogoImageView"
+        android:scaleType="centerInside"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/main_circle_shape"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Whatsapp"
+        android:id="@+id/listEntryTitleTextView"
+        android:textSize="16sp"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:paddingTop="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="72dp"
+        android:fontFamily="sans-serif" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listEntryCountTextView"
+        android:textColor="@color/abc_secondary_text_material_light"
+        android:gravity="center"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:text="140"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="72dp"
+        android:paddingBottom="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="765.77 Mb"
+        android:id="@+id/listEntrySizeTextView"
+        android:fontFamily="sans-serif"
+        android:textSize="15sp"
+        android:textColor="@color/abc_secondary_text_material_light"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="16dp" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/listEntryLogoInitialTextView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:textAllCaps="true"/>
+
+</RelativeLayout>
