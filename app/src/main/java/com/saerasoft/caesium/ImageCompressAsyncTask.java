@@ -104,7 +104,16 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
                     Log.d("CompressTask", "Out size: " + new File(image.getPath()).length());
 
                     //Hit the image into the database
-                    DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
+                    /*
+                    *
+                    * TODO Insert the image into the database, because we are compressing it
+                    * At this stage, we already have a filtered list, but we need to check if we
+                    * compressed an edited image, so, instead of adding, we need to update the entry
+                    *
+                    */
+                    //DatabaseHelper.insertImageIntoDatabase(db, image);
+                    //DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
+                    DatabaseHelper.databaseRoutine(db, image, true);
 
                     publishProgress(n++);
                 }

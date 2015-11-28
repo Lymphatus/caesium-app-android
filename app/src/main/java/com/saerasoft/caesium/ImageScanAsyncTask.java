@@ -63,30 +63,29 @@ public class ImageScanAsyncTask extends AsyncTask<Activity, Integer, CHeaderColl
 
                 /*
                  * We don't need to check the path here
-                 * because the check is performed on the CaesiumImage constructor
+                 * because the check is performed on the CImage constructor
                  */
                 //Create the CImage we will use for the list and for the headers
-                //TODO BUG If true, the decode fails
                 CImage image = new CImage(path, header, mimeType);
 
-                //We need to know if an header with the same title exists and get the index
-                int headerPos = headerCollection.indexOfHeader(header);
+                //Skip empty files
+                if (image.getSize() > 0 && DatabaseHelper.getDatabaseTypeOfImage(db, image) == DatabaseHelper.DatabaseType.NEW) {
+                    //We need to know if an header with the same title exists and get the index
+                    int headerPos = headerCollection.indexOfHeader(header);
 
-                //-1 means the header is new, otherwise is the index
-                if (headerPos == -1) {
-                    //Create the new header
-                    CHeader cHeader = new CHeader(header);
-                    //Add the new file to the header internal list
-                    cHeader.addFile(image);
-                    //Add the header to the collection
-                    headerCollection.add(cHeader);
-                } else {
-                    //The header exists at defined index; Just add the new file to it
-                    headerCollection.getHeaders().get(headerPos).addFile(image);
+                    //-1 means the header is new, otherwise is the index
+                    if (headerPos == -1) {
+                        //Create the new header
+                        CHeader cHeader = new CHeader(header);
+                        //Add the new file to the header internal list
+                        cHeader.addFile(image);
+                        //Add the header to the collection
+                        headerCollection.add(cHeader);
+                    } else {
+                        //The header exists at defined index; Just add the new file to it
+                        headerCollection.getHeaders().get(headerPos).addFile(image);
+                    }
                 }
-
-                //Call the database routine to update the DB
-                databaseRoutine(db, image);
             }
 
             //Close the cursor
@@ -114,31 +113,5 @@ public class ImageScanAsyncTask extends AsyncTask<Activity, Integer, CHeaderColl
     protected void onPostExecute(CHeaderCollection cHeaders) {
         Log.d("ImageScan", "Scan completed.");
         LauncherActivity.scanFinished(mContext, cHeaders);
-    }
-
-    public void databaseRoutine(SQLiteDatabase db, CImage image) {
-        //This methods updates the database
-        //Cleaning is done while compressing
-
-        //Update fill and/or update each entry of the database according to the image
-
-        switch (DatabaseHelper.getDatabaseTypeOfImage(db, image)) {
-            case NEW:
-                //Image is completely fresh, use the insert
-                //Log.d("ImageScan", "NEW: " + image.getPath());
-                DatabaseHelper.insertImageIntoDatabase(db, image);
-                break;
-            case MODIFIED:
-                //The file exists but was modified since last time
-                //Log.d("ImageScan", "MODIFIED: " + image.getPath());
-                DatabaseHelper.updateImageInfo(db, image);
-                break;
-            case EQUAL:
-                //Same image, do nothing
-                //Log.d("ImageScan", "EQUAL: " + image.getPath());
-                break;
-            default:
-                break;
-        }
     }
 }

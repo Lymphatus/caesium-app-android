@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by lymphatus on 02/10/15.
@@ -88,6 +89,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP,
                 timestamp);
+        //Tell the DB the image is not new (means compressed)
+        values.put(DatabaseContract.ImageEntry.COLUMN_NAME_NEW,
+                0);
 
         //We'll identify the row by the image path
         String selection = DatabaseContract.ImageEntry.COLUMN_NAME_PATH + " LIKE ?";
@@ -117,9 +121,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Path is the variable we need to pass to the selection
         String[] selectionArgs = {cImage.getPath()};
 
-        values.put(DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP,
-                System.currentTimeMillis());
-
         //Update the entry
         return db.update(DatabaseContract.ImageEntry.TABLE_NAME,
                 values,
@@ -143,12 +144,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static DatabaseType getDatabaseTypeOfImage(SQLiteDatabase db, CImage cImage) {
-        //Returns true if the image is new or modified, false otherwise
-
         //Get path and timestamp
         String[] projection = {
                 DatabaseContract.ImageEntry.COLUMN_NAME_PATH,
-                DatabaseContract.ImageEntry.COLUMN_NAME_TIMESTAMP
+                DatabaseContract.ImageEntry.COLUMN_NAME_TIMESTAMP,
+                DatabaseContract.ImageEntry.COLUMN_NAME_NEW,
+                DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP
         };
 
         //Use path as where clause
@@ -168,20 +169,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Check if the cursor is not empty, meaning we have and hit
         if (cursor.moveToFirst()) {
             //The images already exists, check if it has been modified
-            if (cImage.getTimestamp() > cursor.getLong(1)) {
+            if (cImage.getTimestamp() > cursor.getLong(3)) {
                 //Cursor has done its job, we don't need to evaluate more
-                cursor.close();
                 //The image timestamp is higher, image MODIFIED
+                Log.d("Database", "MODIFIED: " + cursor.getString(0));
+                cursor.close();
                 return DatabaseType.MODIFIED;
             } else {
-                cursor.close();
                 //Same (or less, but should not happen) timestamp, EQUAL image
+                Log.d("Database", "EQUAL: " + cursor.getString(0));
+                cursor.close();
                 return DatabaseType.EQUAL;
             }
         } else {
-            //Cursor has done its job, we don't need to evaluate more
-            cursor.close();
             //The image does not exist in the database, it's NEW
+            Log.d("Database", "NEW: " + cImage.getPath());
+            cursor.close();
             return DatabaseType.NEW;
         }
     }
@@ -213,6 +216,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         NEW,
         MODIFIED,
         EQUAL
+    }
+
+    public static void databaseRoutine(SQLiteDatabase db, CImage image, Boolean compression) {
+        //This methods updates the database
+        //Cleaning is done while compressing
+
+        //Update fill and/or update each entry of the database according to the image
+
+        switch (getDatabaseTypeOfImage(db, image)) {
+            case NEW:
+                //Image is completely fresh, use the insert
+                Log.d("ImageScan", "NEW: " + image.getPath());
+                if (compression) {
+                    DatabaseHelper.insertImageIntoDatabase(db, image);
+                }
+                break;
+            case MODIFIED:
+                //The file exists but was modified since last time
+                DatabaseHelper.updateImageInfo(db, image);
+                break;
+            case EQUAL:
+                //Same image, do nothing
+                Log.d("ImageScan", "EQUAL: " + image.getPath());
+                break;
+            default:
+                break;
+        }
     }
 
     /* -- End of helper methods -- */

@@ -20,7 +20,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_HEIGHT = "height";
         public static final String COLUMN_NAME_MIME = "mime_type";
         public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-        public static final String COLUMN_NAME_NEW= "new";
+        public static final String COLUMN_NAME_NEW = "new";
         public static final String COLUMN_NAME_HIT_TIMESTAMP = "hit_timestamp";
     }
 }
