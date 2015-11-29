@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,7 +47,7 @@ public class CHeaderAdapter extends ArrayAdapter<CHeader> {
         }
 
         //Get the header according to position
-        CHeader header = mHeaders.get(position);
+        final CHeader header = mHeaders.get(position);
 
         //Check if it's not a null object
         if (header != null) {
@@ -56,19 +58,27 @@ public class CHeaderAdapter extends ArrayAdapter<CHeader> {
             TextView sizeTextView = (TextView) v.findViewById(R.id.listEntrySizeTextView);
             TextView countTextView = (TextView) v.findViewById(R.id.listEntryCountTextView);
             TextView logoInitialTextView = (TextView) v.findViewById(R.id.listEntryLogoInitialTextView);
+            CheckBox checkBox = (CheckBox) v.findViewById(R.id.listEntryCheckBox);
 
             //Set the values according to the CHeader passed
             headerNameTextView.setText(header.getName());
             sizeTextView.setText(Formatter.formatFileSize(getContext(), header.getSize()));
-            countTextView.setText(String.valueOf(header.getCount()));
+            countTextView.setText("(" + String.valueOf(header.getCount()) + ")");
+
 
             //Set a random color for each row
             //TODO This should be more clever
-            logoImageView.getBackground().setColorFilter(Color.parseColor(
-                            getContext().getResources().getStringArray(
-                                    R.array.pastel_colors)[new Random().nextInt(
-                                    (getContext().getResources().getStringArray(R.array.pastel_colors)).length)]),
-                    PorterDuff.Mode.DARKEN);
+
+            if (header.getColor() == Color.WHITE) {
+                header.setColor(Color.parseColor(
+                        getContext().getResources().getStringArray(
+                                R.array.pastel_colors)[new Random().nextInt(
+                                (getContext().getResources().getStringArray(R.array.pastel_colors)).length)]));
+
+
+            }
+
+            logoImageView.getBackground().setColorFilter(header.getColor(), PorterDuff.Mode.DARKEN);
             logoImageView.invalidate();
 
             //Set the logo initial according to the header title
@@ -82,6 +92,16 @@ public class CHeaderAdapter extends ArrayAdapter<CHeader> {
                 logoInitialTextView.setText(String.valueOf(header.getName().charAt(0)));
             }
 
+            //Set a checkbox listener
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    header.setSelected(isChecked);
+                }
+            });
+
+            //Set the checkbox according to the CHeader
+            checkBox.setChecked(header.isSelected());
         }
 
         return v;

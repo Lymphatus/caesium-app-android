@@ -12,7 +12,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/listEntryLogoImageView"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -26,12 +26,10 @@
         android:id="@+id/listEntryTitleTextView"
         android:textSize="16sp"
         android:textColor="@color/abc_primary_text_material_light"
-        android:paddingTop="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:paddingLeft="72dp"
-        android:fontFamily="sans-serif" />
+        android:layout_alignParentLeft="true"
+        android:paddingTop="16dp"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,27 +37,27 @@
         android:id="@+id/listEntryCountTextView"
         android:textColor="@color/abc_secondary_text_material_light"
         android:gravity="center"
-        android:fontFamily="sans-serif"
         android:textSize="14sp"
-        android:text="140"
+        android:text="(140)"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@+id/listEntrySizeTextView"
+        android:layout_toEndOf="@+id/listEntrySizeTextView"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="72dp"
-        android:paddingBottom="18dp" />
+        android:layout_alignParentLeft="false"
+        android:paddingBottom="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="765.77 Mb"
         android:id="@+id/listEntrySizeTextView"
-        android:fontFamily="sans-serif"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textColor="@color/abc_secondary_text_material_light"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="16dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="72dp"
+        android:paddingBottom="16dp" />
 
     <TextView
         android:layout_width="40dp"
@@ -68,11 +66,20 @@
         android:id="@+id/listEntryLogoInitialTextView"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp"
-        android:gravity="center"
         android:textSize="18dp"
         android:textColor="@color/white"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:layout_marginLeft="16dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/listEntryCheckBox"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" />
 
 </RelativeLayout>

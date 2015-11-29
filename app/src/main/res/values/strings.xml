@@ -8,7 +8,7 @@
     <string name="title_activity_launch">Caesium</string>
 
     <!-- Main Activity -->
-    <string name="main_uncompressed">Uncompressed</string>
+    <string name="main_uncompressed">uncompressed</string>
 
     <string name="main_list_header_total">Total</string>
 

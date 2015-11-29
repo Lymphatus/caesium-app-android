@@ -12,7 +12,8 @@
         android:layout_height="96dp"
         android:background="@color/purple_700"
         android:paddingBottom="20dp"
-        android:paddingRight="30dp">
+        android:paddingRight="30dp"
+        android:elevation="6dp">
 
         <TextView
             android:id="@+id/mainImagesCountTextView"
@@ -21,7 +22,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:fontFamily="sans-serif-thin"
+            android:fontFamily="sans-serif-light"
             android:paddingLeft="72dp"
             android:text="830"
             android:textAlignment="center"
@@ -40,10 +41,11 @@
             android:layout_toRightOf="@+id/mainImagesCountTextView"
             android:fontFamily="sans-serif-light"
             android:paddingLeft="5dp"
-            android:text="Uncompressed"
+            android:text="@string/main_uncompressed"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:paddingBottom="2dp" />
 
     </RelativeLayout>
 
@@ -56,7 +58,7 @@
             android:id="@+id/mainHeadersListView"
             style="@style/Base.Widget.AppCompat.ListView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/white"
             android:clickable="false"
             android:clipToPadding="false"

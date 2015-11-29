@@ -1,6 +1,8 @@
 package com.saerasoft.caesium;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.Image;
 
 import java.io.File;
 import java.io.Serializable;
@@ -18,6 +20,7 @@ public class CHeader implements Serializable {
     private long size;
     private int count;
     private int color;
+    private boolean selected;
 
     public CHeader(String headerName) {
         this.name = headerName;
@@ -28,9 +31,17 @@ public class CHeader implements Serializable {
          * TODO Set white as default value
          * Set it while filling the list
          * We'd like to have a more "clever" color picker
-         * By now, the color is set in the adapter creation
          */
         this.color = Color.parseColor("#FFFFFF");
+        this.selected = true;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public int getColor() {

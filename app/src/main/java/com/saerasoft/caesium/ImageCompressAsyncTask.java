@@ -46,80 +46,82 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
         int quality = Integer.valueOf(prefs.getString(SettingsActivity.KEY_COMPRESSION_LEVEL, "65"));
         int exif = (prefs.getBoolean(SettingsActivity.KEY_COMPRESSION_EXIF, true)) ? 1 : 0;
 
-        //TODO Passing the collection does not support cancelling file from the list for the moment
-
         //Scan each header
         for (CHeader header : mCollection.getHeaders()) {
-            //And each image
-            for (CImage image : header.getImages()) {
-                //Check for possible memory leaks
-                if (fitsInMemory(image.getPath())) {
-                    //Keep trace of the input file size
-                    long inSize = image.getSize();
-                    //Start the actual compression process
-                    Log.d("CompressTask", "PROCESSING: " + image.getPath());
-                    Log.d("CompressTask", "In size: " + image.getSize());
-                    //If it's a JPEG, go for the turbo lib
-                    try {
-                        switch (image.getMimeType()) {
-                            case "image/jpeg":
-                                //TODO We get crashes using the lib with standard compression
-                                //Use the Android lib instead for now
-                                if (quality == 0) {
-                                    CompressRoutine(image.getPath(), exif, 0);
-                                } else {
+            if (header.isSelected()) {
+                //And each image
+                for (CImage image : header.getImages()) {
+                    //Check for possible memory leaks
+                    //TODO Not necessary anymore
+                    if (fitsInMemory(image.getPath())) {
+                        //Keep trace of the input file size
+                        long inSize = image.getSize();
+                        //Start the actual compression process
+                        Log.d("CompressTask", "PROCESSING: " + image.getPath());
+                        Log.d("CompressTask", "In size: " + image.getSize());
+                        //If it's a JPEG, go for the turbo lib
+                        try {
+                            switch (image.getMimeType()) {
+                                case "image/jpeg":
+                                    //TODO We get crashes using the lib with standard compression
+                                    //Use the Android lib instead for now
+                                    if (quality == 0) {
+                                        CompressRoutine(image.getPath(), exif, 0);
+                                    } else {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(image.getPath());
+                                        FileOutputStream fos = new FileOutputStream(image.getPath(), false);
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
+                                        bitmap.recycle();
+                                        bitmap = null;
+                                    }
+                                    break;
+                                case "image/png":
+                                    //PNG section
                                     Bitmap bitmap = BitmapFactory.decodeFile(image.getPath());
                                     FileOutputStream fos = new FileOutputStream(image.getPath(), false);
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                                     bitmap.recycle();
                                     bitmap = null;
-                                }
-                                break;
-                            case "image/png":
-                                //PNG section
-                                Bitmap bitmap = BitmapFactory.decodeFile(image.getPath());
-                                FileOutputStream fos = new FileOutputStream(image.getPath(), false);
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                                bitmap.recycle();
-                                bitmap = null;
-                                break;
-                            default:
-                                //TODO Webp?
-                                Log.e("CompressTask", "Cannot compress this kind of image.");
-                                break;
+                                    break;
+                                default:
+                                    //TODO Webp?
+                                    Log.e("CompressTask", "Cannot compress this kind of image.");
+                                    break;
+                            }
+                        } catch (FileNotFoundException e) {
+                            Log.e("CompressTask", "File not found.");
+                        } catch (NullPointerException e) {
+                            Log.e("CompressTask", "Null pointer");
+                        } catch (OutOfMemoryError e) {
+                            Log.e("CompressTask", "OutOfMemory");
                         }
-                    } catch (FileNotFoundException e) {
-                        Log.e("CompressTask", "File not found.");
-                    } catch (NullPointerException e) {
-                        Log.e("CompressTask", "Null pointer");
+
+                        //Get the out file for its stats
+                        File outFile = new File(image.getPath());
+                        if (outFile.length() != 0) {
+                            size += outFile.length();
+                        } else {
+                            size += inSize;
+                        }
+                        Log.d("CompressTask", "Out size: " + new File(image.getPath()).length());
+
+                        //Hit the image into the database
+                        /*
+                        *
+                        * TODO Insert the image into the database, because we are compressing it
+                        * At this stage, we already have a filtered list, but we need to check if we
+                        * compressed an edited image, so, instead of adding, we need to update the entry
+                        *
+                        */
+                        //DatabaseHelper.insertImageIntoDatabase(db, image);
+                        //DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
+                        DatabaseHelper.databaseRoutine(db, image, true);
+
+                        publishProgress(n++);
                     }
-
-                    //Get the out file for its stats
-                    File outFile = new File(image.getPath());
-                    if (outFile.length() != 0) {
-                        size += outFile.length();
-                    } else {
-                        size += inSize;
-                    }
-                    Log.d("CompressTask", "Out size: " + new File(image.getPath()).length());
-
-                    //Hit the image into the database
-                    /*
-                    *
-                    * TODO Insert the image into the database, because we are compressing it
-                    * At this stage, we already have a filtered list, but we need to check if we
-                    * compressed an edited image, so, instead of adding, we need to update the entry
-                    *
-                    */
-                    //DatabaseHelper.insertImageIntoDatabase(db, image);
-                    //DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
-                    DatabaseHelper.databaseRoutine(db, image, true);
-
-                    publishProgress(n++);
                 }
             }
         }
-
         return size;
     }
 
