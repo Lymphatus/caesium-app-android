@@ -2,10 +2,14 @@
 
 ##### v0.3.0-beta (build 20151208)
 
-#### WARNING!
-##### NOT SUITABLE FOR EVERYDAY USE YET
+<p align="center">
+<img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
+</p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
+
+##### WARNING!
+###### NOT SUITABLE FOR EVERYDAY USE YET
 
 ##### REQUIREMENTS
 * [mozjpeg](https://github.com/mozilla/mozjpeg)
