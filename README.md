@@ -1,15 +1,13 @@
 ## CaesiumAPP Android (Cs-134)
 
-##### v0.3.0-beta (build 20151208)
-
 <p align="center">
 <img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
+<br />v0.3.0-beta (build 20151208)
 </p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
 
-##### WARNING!
-###### NOT SUITABLE FOR EVERYDAY USE YET
+###### WARNING This is a beta release, not safe for everyday use yet. Use at your own risk.
 
 ##### REQUIREMENTS
 * [mozjpeg](https://github.com/mozilla/mozjpeg)
