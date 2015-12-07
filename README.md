@@ -1,13 +1,11 @@
 ## CaesiumAPP Android (Cs-134)
 
-##### v0.1.0-beta (build 20151126)
+##### v0.3.0-beta (build 20151208)
 
 #### WARNING!
 ##### NOT SUITABLE FOR EVERYDAY USE YET
 
-
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
-
 
 ##### REQUIREMENTS
 * [mozjpeg](https://github.com/mozilla/mozjpeg)
@@ -21,12 +19,12 @@
 ----------
 
 ##### KNOWN ISSUES
+* The total size counter does not go down to 0.0 after compression
 * Random crashes from the JNI code
 
 ----------
 
 ##### TODO
-* Database cleaning after compression
 * A LOT of bugfixes
 
 ----------

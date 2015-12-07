@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 /**
  * Created by lymphatus on 08/10/15.
  */
-public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
+public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
 
     static {
         System.loadLibrary("caesium");
@@ -31,12 +31,16 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
         mContext = (Context) objs[0];
         CHeaderCollection mCollection = (CHeaderCollection) objs[1];
         SQLiteDatabase db = (SQLiteDatabase) objs[2];
+        int max_count = (int) objs[3];
 
         //Initialize a global counter
         int n = 0;
 
         //Initialize the compressed size counter
         long size = 0;
+
+        //Initialize the in files size
+        long inFilesSize = 0;
 
         //Get the starting time; we will use as performance meter and for hitting images
         Long startTimestamp = System.currentTimeMillis();
@@ -51,11 +55,11 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
             if (header.isSelected()) {
                 //And each image
                 for (CImage image : header.getImages()) {
+                    long inSize = image.getSize();
                     //Check for possible memory leaks
                     //TODO Not necessary anymore
                     if (fitsInMemory(image.getPath())) {
                         //Keep trace of the input file size
-                        long inSize = image.getSize();
                         //Start the actual compression process
                         Log.d("CompressTask", "PROCESSING: " + image.getPath());
                         Log.d("CompressTask", "In size: " + image.getSize());
@@ -103,9 +107,13 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
                         } else {
                             size += inSize;
                         }
+
+                        //How much size we've eaten until now
+                        //TODO BUG This does not give you 0 at the end
+                        inFilesSize += inSize;
+
                         Log.d("CompressTask", "Out size: " + new File(image.getPath()).length());
 
-                        //Hit the image into the database
                         /*
                         *
                         * TODO Insert the image into the database, because we are compressing it
@@ -117,7 +125,7 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
                         //DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
                         DatabaseHelper.databaseRoutine(db, image, true);
 
-                        publishProgress(n++);
+                        publishProgress(n++, max_count, inFilesSize);
                     }
                 }
             }
@@ -125,8 +133,11 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Integer, Long> {
         return size;
     }
 
-    protected void onProgressUpdate(Integer... progress) {
-        MainActivityFragment.onCompressProgress(mContext, progress[0]);
+    protected void onProgressUpdate(Object... progress) {
+        MainActivityFragment.onCompressProgress(mContext,
+                (int) progress[0],
+                (int) progress[1],
+                (long) progress[2]);
     }
 
     protected void onPostExecute(Long result) {

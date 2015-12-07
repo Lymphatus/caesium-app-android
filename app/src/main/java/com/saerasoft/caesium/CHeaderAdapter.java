@@ -1,17 +1,26 @@
 package com.saerasoft.caesium;
 
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,89 +30,147 @@ import java.util.regex.Pattern;
 /**
  * Created by lymphatus on 06/10/15.
  */
-public class CHeaderAdapter extends ArrayAdapter<CHeader> {
+public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHolder> {
 
-    private ArrayList<CHeader> mHeaders;
+    private CHeaderCollection mHeaders;
+    private Context mContext;
+    private int lastPosition = -1;
 
-    public CHeaderAdapter(Context context, int resource, ArrayList<CHeader> headers) {
-        super(context, resource, headers);
+    public CHeaderAdapter(CHeaderCollection headers, Context context) {
         this.mHeaders = headers;
+        this.mContext = context;
     }
 
-    @Override
-    public CHeader getItem(int position) {
-        return this.mHeaders.get(position);
-    }
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        //Declare the widgets
+        public ImageView logoImageView;
+        public TextView headerNameTextView;
+        public TextView sizeTextView;
+        public TextView countTextView;
+        public TextView logoInitialTextView;
+        public CheckBox checkBox;
 
-    @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        View v = convertView;
+        //The container for the animation
+        public RelativeLayout container;
 
-        if (v == null) {
-            //Inflate the View if it does not exist yet
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.list_main, parent, false);
+        public ViewHolder(View v) {
+            super(v);
+            logoImageView = (ImageView) v.findViewById(R.id.listEntryLogoImageView);
+            headerNameTextView = (TextView) v.findViewById(R.id.listEntryTitleTextView);
+            sizeTextView = (TextView) v.findViewById(R.id.listEntrySizeTextView);
+            countTextView = (TextView) v.findViewById(R.id.listEntryCountTextView);
+            logoInitialTextView = (TextView) v.findViewById(R.id.listEntryLogoInitialTextView);
+            checkBox = (CheckBox) v.findViewById(R.id.listEntryCheckBox);
+            container = (RelativeLayout) itemView.findViewById(R.id.listRelativeLayout);
         }
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         //Get the header according to position
-        final CHeader header = mHeaders.get(position);
+        final CHeader header = mHeaders.getHeaders().get(position);
 
-        //Check if it's not a null object
-        if (header != null) {
+        //Set the values according to the CHeader passed
+        holder.headerNameTextView.setText(header.getName());
+        holder.sizeTextView.setText(Formatter.formatFileSize(mContext, header.getSize()));
+        holder.countTextView.setText("(" + String.valueOf(header.getCount()) + ")");
 
-            //Get the widgets within the view
-            ImageView logoImageView = (ImageView) v.findViewById(R.id.listEntryLogoImageView);
-            TextView headerNameTextView = (TextView) v.findViewById(R.id.listEntryTitleTextView);
-            TextView sizeTextView = (TextView) v.findViewById(R.id.listEntrySizeTextView);
-            TextView countTextView = (TextView) v.findViewById(R.id.listEntryCountTextView);
-            TextView logoInitialTextView = (TextView) v.findViewById(R.id.listEntryLogoInitialTextView);
-            CheckBox checkBox = (CheckBox) v.findViewById(R.id.listEntryCheckBox);
+        //Set a random color for each row
+        //TODO This should be more clever
 
-            //Set the values according to the CHeader passed
-            headerNameTextView.setText(header.getName());
-            sizeTextView.setText(Formatter.formatFileSize(getContext(), header.getSize()));
-            countTextView.setText("(" + String.valueOf(header.getCount()) + ")");
+        if (header.getColor() == Color.WHITE) {
+            header.setColor(Color.parseColor(
+                    mContext.getResources().getStringArray(
+                            R.array.pastel_colors)[new Random().nextInt(
+                            (mContext.getResources().getStringArray(R.array.pastel_colors)).length)]));
 
 
-            //Set a random color for each row
-            //TODO This should be more clever
-
-            if (header.getColor() == Color.WHITE) {
-                header.setColor(Color.parseColor(
-                        getContext().getResources().getStringArray(
-                                R.array.pastel_colors)[new Random().nextInt(
-                                (getContext().getResources().getStringArray(R.array.pastel_colors)).length)]));
-
-
-            }
-
-            logoImageView.getBackground().setColorFilter(header.getColor(), PorterDuff.Mode.DARKEN);
-            logoImageView.invalidate();
-
-            //Set the logo initial according to the header title
-            //Gets the first alphabetic char
-            Pattern p = Pattern.compile("\\p{Alpha}");
-            Matcher m = p.matcher(header.getName());
-            //If there's an alpha char, use it, otherwise use just the first char
-            if (m.find()) {
-                logoInitialTextView.setText(String.valueOf(header.getName().charAt(m.start())));
-            } else {
-                logoInitialTextView.setText(String.valueOf(header.getName().charAt(0)));
-            }
-
-            //Set a checkbox listener
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    header.setSelected(isChecked);
-                }
-            });
-
-            //Set the checkbox according to the CHeader
-            checkBox.setChecked(header.isSelected());
         }
 
-        return v;
+        holder.logoImageView.getBackground().setColorFilter(header.getColor(), PorterDuff.Mode.DARKEN);
+        holder.logoImageView.invalidate();
+
+        //Set the logo initial according to the header title
+        //Gets the first alphabetic char
+        Pattern p = Pattern.compile("\\p{Alpha}");
+        Matcher m = p.matcher(header.getName());
+        //If there's an alpha char, use it, otherwise use just the first char
+        if (m.find()) {
+            holder.logoInitialTextView.setText(String.valueOf(header.getName().charAt(m.start())));
+        } else {
+            holder.logoInitialTextView.setText(String.valueOf(header.getName().charAt(0)));
+        }
+
+        //Set a checkbox listener
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Keep track of the old progress value for the animation
+                int oldProgress = mHeaders.getSelectedItemsImageCount();
+                //Set the header checked
+                header.setSelected(isChecked);
+
+                //Get the views
+                ArcProgress imagesCountArcProgress = (ArcProgress) ((Activity) mContext).getWindow().getDecorView().findViewById(
+                        R.id.mainImagesCountArcProgress);
+                TextView imagesSizeTextView = (TextView) ((Activity) mContext).getWindow().getDecorView().findViewById(
+                        R.id.mainImagesSizeTextView);
+
+                //This holds the current image count
+                int progress = mHeaders.getSelectedItemsImageCount();
+
+                //Set an animator
+                ObjectAnimator animation = ObjectAnimator.ofInt(imagesCountArcProgress, "progress", progress);
+                animation.setInterpolator(new DecelerateInterpolator());
+
+                //The only case in which the two progresses are the same is the first time we call
+                //the animation
+                if (progress == oldProgress) {
+                    animation.setDuration(1000);
+                    //TODO This delay is arbitrary, do some research about that
+                    animation.setStartDelay(300);
+                } else {
+                    animation.setDuration(500);
+                }
+                animation.start();
+
+                //Set the selected images size to the main text view
+                imagesSizeTextView.setText(Formatter.formatFileSize(mContext, mHeaders.getSelectedItemsImageSize()));
+            }
+        });
+
+        //Set the checkbox according to the CHeader
+        holder.checkBox.setChecked(header.isSelected());
+
+        //Set an animation
+        setAnimation(holder.container, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mHeaders.getHeaders().size();
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_main, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        holder.container.clearAnimation();
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        //If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_up);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 }

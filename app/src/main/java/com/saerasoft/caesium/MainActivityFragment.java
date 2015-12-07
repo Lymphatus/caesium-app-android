@@ -1,36 +1,43 @@
 package com.saerasoft.caesium;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+import com.github.lzyzsd.circleprogress.ArcProgress;
+
 public class MainActivityFragment extends Fragment {
 
     public final static String BUNDLE_HEADER_COLLECTION = "com.saerasoft.caesium.B_HEADER_COLLECTION";
 
     private static CHeaderCollection collection;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public MainActivityFragment() {
 
     }
 
-    public static void onCompressProgress(Context context, int progress) {
+    public static void onCompressProgress(Context context, int progress, int max, long size) {
         //Super ugly 1 row method to update progress bar count
-        ((ProgressBar) ((Activity) context).getWindow().getDecorView().findViewById(
-                R.id.mainProgressBar)).setMax(progress);
+        ((ArcProgress) ((Activity) context).getWindow().getDecorView().findViewById(
+                R.id.mainImagesCountArcProgress)).setProgress(max - progress - 1);
+
+        //Super ugly 1 row method to update the uncompressed count
+        ((TextView) ((Activity) context).getWindow().getDecorView().findViewById(
+                R.id.mainImagesSizeTextView)).setText(Formatter.formatFileSize(context,
+                collection.getSelectedItemsImageSize() - size));
     }
 
     public static void onPostCompress(long size) {
@@ -48,21 +55,19 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Log.d("MainFragment", "View created");
+
         //Get rootView for getting widgets
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         //Get the required elements of the layout
-        TextView imagesCountTextView = (TextView) rootView.findViewById(R.id.mainImagesCountTextView);
-        ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.mainProgressBar);
-        ListView listView = (ListView) rootView.findViewById(R.id.mainHeadersListView);
+        final ArcProgress imagesCountArcProgress = (ArcProgress) rootView.findViewById(R.id.mainImagesCountArcProgress);
+        RecyclerView listView = (RecyclerView) rootView.findViewById(R.id.mainHeadersListView);
         FloatingActionButton compressButton = (FloatingActionButton) rootView.findViewById(R.id.mainCompressButton);
-        //Inflate the header layout to the list view
-        ViewGroup listViewHeader = (ViewGroup) inflater.inflate(R.layout.list_header, listView, false);
-        TextView headerImagesSize = (TextView) listViewHeader.findViewById(R.id.listHeaderImagesSizeTextView);
+        TextView imagesSizeTextView = (TextView) rootView.findViewById(R.id.mainImagesSizeTextView);
 
         if (getActivity().getIntent()
                 .getParcelableExtra(LauncherActivity.EXTRA_HEADER_COLLECTION) != null) {
@@ -70,19 +75,26 @@ public class MainActivityFragment extends Fragment {
                     .getParcelableExtra(LauncherActivity.EXTRA_HEADER_COLLECTION);
         }
 
-        //Set the counter and progress bar total according to the collection
-        int imagesCount = collection.getCount();
-        imagesCountTextView.setText(String.valueOf(imagesCount));
-        progressBar.setMax(imagesCount);
-
         //Create an instance of the adapter for the list
-        CHeaderAdapter adapter = new CHeaderAdapter(getContext(), R.layout.list_main, collection.getHeaders());
-        //Set the total size of scanned images to the list header
-        headerImagesSize.setText(Formatter.formatFileSize(getContext(), collection.getSize()));
+        CHeaderAdapter adapter = new CHeaderAdapter(collection, getContext());
+
+        //Set the total size of scanned images to the text view
+        imagesSizeTextView.setText(Formatter.formatFileSize(getContext(), collection.getSize()));
+
+        //List settings
+        listView.setHasFixedSize(true);
+
+        //Use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        listView.setLayoutManager(mLayoutManager);
 
         //Add the header and the adapter to the list
-        listView.addHeaderView(listViewHeader);
         listView.setAdapter(adapter);
+
+        //Set the counter and progress bar total according to the collection with an animation
+        final int maxImagesCount = collection.getCount();
+        imagesCountArcProgress.setMax(maxImagesCount);
+
 
         /* -- Listeners -- */
 
@@ -93,7 +105,9 @@ public class MainActivityFragment extends Fragment {
                 ImageCompressAsyncTask compressor = new ImageCompressAsyncTask();
                 compressor.execute(getActivity(),
                         collection,
-                        new DatabaseHelper(getContext()).getWritableDatabase());
+                        new DatabaseHelper(getContext()).getWritableDatabase(),
+                        collection.getSelectedItemsImageCount(),
+                        collection.getSelectedItemsImageSize());
             }
         });
 

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,43 +10,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:background="@color/purple_700"
-        android:paddingBottom="20dp"
-        android:paddingRight="30dp"
+        android:layout_height="156dp"
+        android:background="@color/primary_500"
         android:elevation="6dp">
 
-        <TextView
-            android:id="@+id/mainImagesCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:fontFamily="sans-serif-light"
-            android:paddingLeft="72dp"
-            android:text="830"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:visibility="visible" />
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:id="@+id/mainImagesCountArcProgress"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            custom:arc_finished_color="@color/white"
+            custom:arc_unfinished_color="@color/primary_600"
+            custom:arc_suffix_text_size="0dp"
+            custom:arc_text_color="@color/white"
+            custom:arc_bottom_text="@string/main_images"
+            custom:arc_bottom_text_size="14sp" />
 
         <TextView
-            android:id="@+id/mainImagesTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/mainImagesCountTextView"
-            android:layout_marginBottom="2dp"
-            android:layout_toEndOf="@+id/mainImagesCountTextView"
-            android:layout_toRightOf="@+id/mainImagesCountTextView"
-            android:fontFamily="sans-serif-light"
-            android:paddingLeft="5dp"
-            android:text="@string/main_uncompressed"
-            android:textAllCaps="false"
+            android:id="@+id/mainImagesSizeTextView"
+            android:layout_below="@+id/mainImagesCountArcProgress"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:paddingBottom="2dp" />
+            android:fontFamily="sans-serif-light"
+            android:text="1,60GB"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -54,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/mainHeadersListView"
             style="@style/Base.Widget.AppCompat.ListView"
             android:layout_width="wrap_content"
@@ -67,7 +58,7 @@
             android:drawSelectorOnTop="true"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:longClickable="false"
+            android:longClickable="true"
             android:overScrollFooter="@android:color/transparent"
             android:overScrollHeader="@android:color/transparent"
             android:paddingBottom="70dp" />
@@ -85,21 +76,6 @@
             android:src="@mipmap/logo2x"
             app:elevation="10dp" />
 
-        <ProgressBar
-            android:id="@+id/mainProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="-7dp"
-            android:backgroundTint="@color/white"
-            android:progressBackgroundTint="@color/white"
-            android:progressTint="@color/teal_400"
-            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

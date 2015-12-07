@@ -3,12 +3,13 @@
 
     <!-- Menu actions -->
     <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
 
     <!-- Launcher Activity -->
     <string name="title_activity_launch">Caesium</string>
 
     <!-- Main Activity -->
-    <string name="main_uncompressed">uncompressed</string>
+    <string name="main_images">IMAGES</string>
 
     <string name="main_list_header_total">Total</string>
 

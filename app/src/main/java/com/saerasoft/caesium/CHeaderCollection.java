@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by lymphatus on 05/10/15.
  */
 
-//TODO Is Parcelable better?
 public class CHeaderCollection implements Parcelable {
 
     public static final Parcelable.Creator<CHeaderCollection> CREATOR
@@ -26,12 +25,6 @@ public class CHeaderCollection implements Parcelable {
     private long size;
     private int count;
 
-    public CHeaderCollection(ArrayList<CHeader> headers) {
-        //Constructor by headers
-        this.headers = headers;
-        this.size = getSize();
-        this.count = getCount();
-    }
 
     public CHeaderCollection() {
         //Empty constructor
@@ -88,6 +81,24 @@ public class CHeaderCollection implements Parcelable {
         this.size = size;
     }
 
+    public int getSelectedItemsImageCount() {
+        return getSelectedHeaders().getCount();
+    }
+
+    public long getSelectedItemsImageSize() {
+        return getSelectedHeaders().getSize();
+    }
+
+    public CHeaderCollection getSelectedHeaders() {
+        CHeaderCollection selectedCollection = new CHeaderCollection();
+        for (CHeader h : this.headers) {
+            //Add to count only if selected
+            if (h.isSelected()) {
+                selectedCollection.add(h);
+            }
+        }
+        return selectedCollection;
+    }
 
     /* Parcelable methods */
 

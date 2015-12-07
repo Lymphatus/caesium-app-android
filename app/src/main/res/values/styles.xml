@@ -4,10 +4,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle"   tools:ignore="NewApi">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/purple_800</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
         <item name="android:listViewStyle">@style/ListViewStyle</item>
-        <item name="colorAccent">@color/teal_400</item>
-        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorAccent">@color/accent_500</item>
+        <item name="colorPrimary">@color/primary_500</item>
 
         <!-- Remove shadow below action bar Android < 5.0 -->
         <item name="android:windowContentOverlay">@null</item>
@@ -15,8 +15,8 @@
 
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background" tools:ignore="NewApi">@color/purple_700</item>
-        <item name="background">@color/purple_700</item>
+        <item name="android:background" tools:ignore="NewApi">@color/primary_500</item>
+        <item name="background">@color/primary_500</item>
         <item name="android:windowActionBarOverlay">true</item>
         <!-- remove shadow below action bar -->
         <item name="android:elevation" tools:targetApi="lollipop">0dp</item>
@@ -34,13 +34,13 @@
     <style name="ListViewStyle" parent="Theme.AppCompat.Light"></style>
 
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor" tools:targetApi="21">@color/purple_800</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
     </style>
 
     <style name="AppThemePreferences" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/purple_800</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
 
         <!-- Remove shadow below action bar Android < 5.0 -->
         <item name="android:windowContentOverlay">@null</item>

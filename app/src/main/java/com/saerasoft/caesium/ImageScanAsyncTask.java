@@ -99,11 +99,11 @@ public class ImageScanAsyncTask extends AsyncTask<Activity, Integer, CHeaderColl
         }
 
         //Sort the collection by given parameter
-        //TODO Make this a preference. Now is by image count
+        //TODO Make this a preference. Now is by images size
         Collections.sort(headerCollection.getHeaders(), new Comparator<CHeader>() {
             @Override
             public int compare(CHeader lhs, CHeader rhs) {
-                return rhs.getCount() - lhs.getCount();
+                return (int) (rhs.getSize() - lhs.getSize());
             }
         });
 
