@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
-<br />v0.3.0-beta (build 20151208)
+<br />v0.3.1-beta (build 20151209)
 </p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
@@ -15,14 +15,14 @@
 ----------
 
 ##### TESTED PLATFORMS
-* Nexus 5 Emulator (x86)
-* Sony XPERIA Z3 Compact (ARM)
+* Nexus 5 Emulator (x86) (API 19)
+* Sony XPERIA Z3 Compact (ARM) (API 22)
 
 ----------
 
 ##### KNOWN ISSUES
-* The total size counter does not go down to 0.0 after compression
 * Random crashes from the JNI code
+* The files are compressed in reverse order
 
 ----------
 

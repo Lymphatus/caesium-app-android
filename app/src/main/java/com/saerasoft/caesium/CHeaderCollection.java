@@ -120,6 +120,10 @@ public class CHeaderCollection implements Parcelable {
         this.headers.add(header);
     }
 
+    public void removeAt(int position) {
+        this.headers.remove(position);
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -24,24 +24,36 @@ public class MainActivityFragment extends Fragment {
 
     private static CHeaderCollection collection;
     private RecyclerView.LayoutManager mLayoutManager;
+    private static Context mContext;
+    private static long inImagesSize;
 
     public MainActivityFragment() {
 
     }
 
-    public static void onCompressProgress(Context context, int progress, int max, long size) {
+    public static void onCompressProgress(Context context, int progress, int max, boolean remove, int i) {
         //Super ugly 1 row method to update progress bar count
         ((ArcProgress) ((Activity) context).getWindow().getDecorView().findViewById(
                 R.id.mainImagesCountArcProgress)).setProgress(max - progress - 1);
 
-        //Super ugly 1 row method to update the uncompressed count
+        //Super ugly 1 row method to update the size count
         ((TextView) ((Activity) context).getWindow().getDecorView().findViewById(
-                R.id.mainImagesSizeTextView)).setText(Formatter.formatFileSize(context,
-                collection.getSelectedItemsImageSize() - size));
+                R.id.mainImagesSizeTextView)).setText("Compressing...");
+
+        //Check if we need to remove the item
+        if (remove) {
+            CHeaderAdapter adapter = (CHeaderAdapter) ((RecyclerView) ((Activity) context).getWindow().getDecorView().findViewById(
+                    R.id.mainHeadersListView)).getAdapter();
+            adapter.removeAt(i);
+        }
     }
 
     public static void onPostCompress(long size) {
         Log.d("MainFragment", "Compressed size: " + size);
+        //Super ugly 1 row method to update the size count
+        ((TextView) ((Activity) mContext).getWindow().getDecorView().findViewById(
+                R.id.mainImagesSizeTextView)).setText("Saved " + Formatter.formatFileSize(mContext,
+                inImagesSize - size));
     }
 
     @Override
@@ -52,6 +64,8 @@ public class MainActivityFragment extends Fragment {
         if (savedInstanceState != null) {
             collection = savedInstanceState.getParcelable(BUNDLE_HEADER_COLLECTION);
         }
+
+        mContext = getContext();
     }
 
     @Override
@@ -82,13 +96,13 @@ public class MainActivityFragment extends Fragment {
         imagesSizeTextView.setText(Formatter.formatFileSize(getContext(), collection.getSize()));
 
         //List settings
-        listView.setHasFixedSize(true);
-
         //Use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(mLayoutManager);
+        //Add a divider
+        listView.addItemDecoration(new DividerItemDecoration(getContext()));
 
-        //Add the header and the adapter to the list
+        //Add the adapter to the list
         listView.setAdapter(adapter);
 
         //Set the counter and progress bar total according to the collection with an animation
@@ -102,6 +116,7 @@ public class MainActivityFragment extends Fragment {
         compressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                inImagesSize = collection.getSelectedItemsImageSize();
                 ImageCompressAsyncTask compressor = new ImageCompressAsyncTask();
                 compressor.execute(getActivity(),
                         collection,

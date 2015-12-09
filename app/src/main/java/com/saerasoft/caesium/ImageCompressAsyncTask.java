@@ -12,6 +12,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Objects;
 
 /**
  * Created by lymphatus on 08/10/15.
@@ -42,6 +43,9 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
         //Initialize the in files size
         long inFilesSize = 0;
 
+        //Utility variable to keep track of headers index
+        int currentHeaderIndex = 0;
+
         //Get the starting time; we will use as performance meter and for hitting images
         Long startTimestamp = System.currentTimeMillis();
 
@@ -51,11 +55,19 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
         int exif = (prefs.getBoolean(SettingsActivity.KEY_COMPRESSION_EXIF, true)) ? 1 : 0;
 
         //Scan each header
-        for (CHeader header : mCollection.getHeaders()) {
+        for (int i = mCollection.getHeaders().size() - 1; i >= 0; i--) {
+            CHeader header = mCollection.getHeaders().get(i);
             if (header.isSelected()) {
+                //Counter
+                int j = 0;
                 //And each image
                 for (CImage image : header.getImages()) {
+                    //Increasing now avoids wrong count on errors
+                    j++;
                     long inSize = image.getSize();
+                    //How much size we've eaten until now
+                    //TODO BUG This does not give you 0 at the end
+                    inFilesSize += inSize;
                     //Check for possible memory leaks
                     //TODO Not necessary anymore
                     if (fitsInMemory(image.getPath())) {
@@ -108,10 +120,6 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
                             size += inSize;
                         }
 
-                        //How much size we've eaten until now
-                        //TODO BUG This does not give you 0 at the end
-                        inFilesSize += inSize;
-
                         Log.d("CompressTask", "Out size: " + new File(image.getPath()).length());
 
                         /*
@@ -125,7 +133,7 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
                         //DatabaseHelper.hitImageRow(db, image.getPath(), startTimestamp);
                         DatabaseHelper.databaseRoutine(db, image, true);
 
-                        publishProgress(n++, max_count, inFilesSize);
+                        publishProgress(n++, max_count, j == header.getCount(), i);
                     }
                 }
             }
@@ -133,15 +141,19 @@ public class ImageCompressAsyncTask extends AsyncTask<Object, Object, Long> {
         return size;
     }
 
+    @Override
     protected void onProgressUpdate(Object... progress) {
         MainActivityFragment.onCompressProgress(mContext,
                 (int) progress[0],
                 (int) progress[1],
-                (long) progress[2]);
+                (boolean) progress[2],
+                (int) progress[3]);
     }
 
+    @Override
     protected void onPostExecute(Long result) {
         Log.d("CompressTask", "COMPRESSION FINISHED");
+        MainActivityFragment.onPostCompress(result);
     }
 
     //JNI Methods

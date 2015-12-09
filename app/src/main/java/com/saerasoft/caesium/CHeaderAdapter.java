@@ -173,4 +173,10 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
             lastPosition = position;
         }
     }
+
+    public void removeAt(int position) {
+        mHeaders.removeAt(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mHeaders.getHeaders().size());
+    }
 }
