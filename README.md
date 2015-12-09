@@ -1,7 +1,7 @@
 ## CaesiumAPP Android (Cs-134)
 
 <p align="center">
-<img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
+<img src="http://saerasoft.com/caesium/app/images/github_screen_0.3.1.png" alt="screenshot" width="200px" />
 <br />v0.3.1-beta (build 20151209)
 </p>
 
