@@ -1,13 +1,8 @@
 ## CaesiumAPP Android (Cs-134)
 
 <p align="center">
-<<<<<<< HEAD
 <img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
 <br />v0.4.0-beta (build 20151210)
-=======
-<img src="http://saerasoft.com/caesium/app/images/github_screen_0.3.1.png" alt="screenshot" width="200px" />
-<br />v0.3.1-beta (build 20151209)
->>>>>>> origin/master
 </p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
