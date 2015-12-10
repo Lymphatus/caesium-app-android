@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="http://saerasoft.com/caesium/app/images/github_screen.png" alt="screenshot" width="200px" />
-<br />v0.3.1-beta (build 20151209)
+<br />v0.4.0-beta (build 20151210)
 </p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.
@@ -23,6 +23,7 @@
 ##### KNOWN ISSUES
 * Random crashes from the JNI code
 * The files are compressed in reverse order
+* During compression the UI stops update if the screen switch orientation or if we exit the Activity
 
 ----------
 

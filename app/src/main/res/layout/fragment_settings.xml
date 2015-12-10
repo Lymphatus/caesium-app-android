@@ -18,7 +18,7 @@
             android:key="pref_key_compression_level"
             android:title="@string/pref_compression_level_title" />
 
-        <SwitchPreference
+        <com.saerasoft.caesium.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_key_compression_exif"
             android:title="@string/pref_compression_exif_title" />
@@ -34,7 +34,7 @@
             android:key="pref_key_info_version"
             android:title="@string/pref_info_version_title" />
 
-        <SwitchPreference
+        <com.saerasoft.caesium.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_key_info_usage"
             android:summary="@string/pref_info_usage_summary"

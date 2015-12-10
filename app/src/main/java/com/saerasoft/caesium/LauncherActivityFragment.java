@@ -7,11 +7,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LauncherActivityFragment extends Fragment {
 
     public LauncherActivityFragment() {
@@ -23,10 +24,26 @@ public class LauncherActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_launch, container, false);
 
+        ImageView logoImageView = (ImageView) rootView.findViewById(R.id.launchLogoImageView);
+        TextView brandTextView = (TextView) rootView.findViewById(R.id.launchTextView);
+        ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.launchProgressBar);
+
+        //Logo Animation
+        Animation launcherIn = AnimationUtils.loadAnimation(getContext(), R.anim.launcher_logo_in);
+        logoImageView.startAnimation(launcherIn);
+
+        //Brand animation
+        Animation brandIn = AnimationUtils.loadAnimation(getContext(), R.anim.list_item_up);
+        brandTextView.startAnimation(brandIn);
+
         //ProgressBar Color by applying a white filter
-        ((ProgressBar) rootView.findViewById(R.id.launchProgressBar)).getIndeterminateDrawable()
+        progressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.white),
                         PorterDuff.Mode.SRC_IN);
+
+        Animation progressIn = AnimationUtils.loadAnimation(getContext(), R.anim.launcher_logo_in);
+        progressIn.setStartOffset(800);
+        progressBar.startAnimation(progressIn);
 
         return rootView;
     }
