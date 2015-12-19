@@ -14,17 +14,18 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@mipmap/logo2x" />
+        android:src="@drawable/ic_caesium_white" />
 
     <TextView
         android:id="@+id/launchTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/primary_text_default_material_dark" />
+        android:textColor="@color/primary_text_default_material_dark"
+        android:gravity="center"
+        android:layout_above="@+id/launchBetaTextView"
+        android:layout_centerHorizontal="true" />
 
     <ProgressBar
         android:id="@+id/launchProgressBar"
@@ -34,5 +35,16 @@
         android:layout_below="@+id/launchLogoImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/launchBetaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_beta"
+        android:textColor="@color/primary_text_default_material_dark"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-light" />
 
 </RelativeLayout>

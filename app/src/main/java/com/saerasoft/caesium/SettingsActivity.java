@@ -13,6 +13,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String KEY_COMPRESSION_EXIF = "pref_key_compression_exif";
     public static final String KEY_INFO_VERSION = "pref_key_info_version";
     public static final String KEY_INFO_USAGE = "pref_key_info_usage";
+    public static final String KEY_MAINTENANCE_CLEAR_DATABASE = "pref_key_maintenance_clear_database";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

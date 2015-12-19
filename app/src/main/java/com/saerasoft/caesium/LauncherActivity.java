@@ -1,5 +1,6 @@
 package com.saerasoft.caesium;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ public class LauncherActivity extends AppCompatActivity {
         Intent main = new Intent(context, MainActivity.class);
         main.putExtra(EXTRA_HEADER_COLLECTION, headerCollection);
         context.startActivity(main);
+        ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

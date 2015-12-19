@@ -207,6 +207,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public static void deleteDatabase(SQLiteDatabase db) {
+        //Delete all entries
+        db.execSQL(SQL_DELETE_ENTRIES);
+    }
+
     /* -- End of the routine methods -- */
 
 

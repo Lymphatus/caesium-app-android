@@ -1,9 +1,11 @@
 package com.saerasoft.caesium;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 
@@ -34,6 +36,20 @@ public class SettingsActivityFragment extends PreferenceFragment implements Shar
         //Compression level summary
         ListPreference compressionLevelListPreference = (ListPreference) findPreference(SettingsActivity.KEY_COMPRESSION_LEVEL);
         findPreference(SettingsActivity.KEY_COMPRESSION_LEVEL).setSummary(compressionLevelListPreference.getEntry());
+
+        /* --- Listeners --- */
+
+        //Clear Database
+        findPreference(SettingsActivity.KEY_MAINTENANCE_CLEAR_DATABASE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ClearDatabaseDialogFragment dialog = new ClearDatabaseDialogFragment();
+                dialog.show(getFragmentManager(), "ClearDatabaseDialog");
+                return false;
+            }
+        });
+
+        /* --- End of listeners --- */
     }
 
     @Override

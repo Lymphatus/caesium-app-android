@@ -17,6 +17,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
     private CHeaderCollection mHeaders;
     private Context mContext;
     private int lastPosition = -1;
+    private ViewHolder vh;
 
     public CHeaderAdapter(CHeaderCollection headers, Context context) {
         this.mHeaders = headers;
@@ -67,6 +69,8 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        //Set the global view holder
+        this.vh = holder;
 
         //Get the header according to position
         final CHeader header = mHeaders.getHeaders().get(position);
@@ -110,38 +114,18 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
                 int oldProgress = mHeaders.getSelectedItemsImageCount();
                 //Set the header checked
                 header.setSelected(isChecked);
-
-                //Get the views
-                ArcProgress imagesCountArcProgress = (ArcProgress) ((Activity) mContext).getWindow().getDecorView().findViewById(
-                        R.id.mainImagesCountArcProgress);
-                TextView imagesSizeTextView = (TextView) ((Activity) mContext).getWindow().getDecorView().findViewById(
-                        R.id.mainImagesSizeTextView);
-
-                //This holds the current image count
-                int progress = mHeaders.getSelectedItemsImageCount();
-
-                //Set an animator
-                ObjectAnimator animation = ObjectAnimator.ofInt(imagesCountArcProgress, "progress", progress);
-                animation.setInterpolator(new DecelerateInterpolator());
-
-                //The only case in which the two progresses are the same is the first time we call
-                //the animation
-                if (progress == oldProgress) {
-                    animation.setDuration(1000);
-                    //TODO This delay is arbitrary, do some research about that
-                    animation.setStartDelay(300);
-                } else {
-                    animation.setDuration(500);
-                }
-                animation.start();
-
-                //Set the selected images size to the main text view
-                imagesSizeTextView.setText(Formatter.formatFileSize(mContext, mHeaders.getSelectedItemsImageSize()));
+                updateUICount(oldProgress);
             }
         });
 
         //Set the checkbox according to the CHeader
         holder.checkBox.setChecked(header.isSelected());
+        //And set him visible
+        if (header.isCheckBoxVisible()) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkBox.setVisibility(View.INVISIBLE);
+        }
 
         //Set an animation
         setAnimation(holder.container, position);
@@ -174,9 +158,51 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
         }
     }
 
+    public void updateUICount(int oldProgress) {
+        //Get the views
+        ArcProgress imagesCountArcProgress = (ArcProgress) ((Activity) mContext).getWindow().getDecorView().findViewById(
+                R.id.mainImagesCountArcProgress);
+        TextView imagesSizeTextView = (TextView) ((Activity) mContext).getWindow().getDecorView().findViewById(
+                R.id.mainImagesSizeTextView);
+
+        //This holds the current image count
+        int progress = mHeaders.getSelectedItemsImageCount();
+
+        //Set an animator
+        ObjectAnimator animation = ObjectAnimator.ofInt(imagesCountArcProgress, "progress", progress);
+        animation.setInterpolator(new DecelerateInterpolator());
+
+        //The only case in which the two progresses are the same is the first time we call
+        //the animation
+        if (progress == oldProgress) {
+            animation.setDuration(1000);
+            //TODO This delay is arbitrary, do some research about that
+            //animation.setStartDelay(200);
+        } else {
+            animation.setDuration(500);
+        }
+        animation.start();
+
+        //Set the selected images size to the main text view
+        imagesSizeTextView.setText(Formatter.formatFileSize(mContext, mHeaders.getSelectedItemsImageSize()));
+    }
+
+    public CHeaderCollection getHeaderCollection() {
+        return mHeaders;
+    }
+
     public void removeAt(int position) {
         mHeaders.removeAt(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, mHeaders.getHeaders().size());
+    }
+
+    public void checkItemAt(int position, boolean checked) {
+        mHeaders.getHeaders().get(position).setSelected(checked);
+        updateUICount(mHeaders.getSelectedItemsImageCount());
+    }
+
+    public void setCheckboxVisible(boolean visible, int position) {
+        mHeaders.getHeaders().get(position).setCheckBoxVisible(visible);
     }
 }

@@ -45,23 +45,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainHeadersListView"
-            style="@style/Base.Widget.AppCompat.ListView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:clickable="false"
-            android:clipToPadding="false"
-            android:divider="@drawable/list_divider"
-            android:dividerHeight="1dp"
-            android:drawSelectorOnTop="true"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:longClickable="true"
-            android:overScrollFooter="@android:color/transparent"
-            android:overScrollHeader="@android:color/transparent"
-            android:paddingBottom="70dp" />
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainHeadersListView"
+                style="@style/Base.Widget.AppCompat.ListView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="false"
+                android:clipToPadding="false"
+                android:divider="@drawable/list_divider"
+                android:dividerHeight="1dp"
+                android:drawSelectorOnTop="true"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:longClickable="true"
+                android:overScrollFooter="@android:color/transparent"
+                android:overScrollHeader="@android:color/transparent"
+                android:paddingBottom="70dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/mainCompressButton"
@@ -73,7 +80,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/logo2x"
+            android:src="@drawable/ic_caesium_white_24dp"
             app:elevation="10dp" />
 
     </RelativeLayout>

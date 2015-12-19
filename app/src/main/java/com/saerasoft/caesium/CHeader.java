@@ -21,6 +21,7 @@ public class CHeader implements Serializable {
     private int count;
     private int color;
     private boolean selected;
+    private boolean checkBoxVisible;
 
     public CHeader(String headerName) {
         this.name = headerName;
@@ -34,6 +35,15 @@ public class CHeader implements Serializable {
          */
         this.color = Color.parseColor("#FFFFFF");
         this.selected = true;
+        this.checkBoxVisible = true;
+    }
+
+    public boolean isCheckBoxVisible() {
+        return checkBoxVisible;
+    }
+
+    public void setCheckBoxVisible(boolean checkBoxVisible) {
+        this.checkBoxVisible = checkBoxVisible;
     }
 
     public boolean isSelected() {

@@ -1,21 +1,26 @@
 <resources>
     <string name="app_name">Caesium</string>
+    <string name="app_beta">BETA</string>
 
     <!-- Menu actions -->
     <string name="action_settings">Settings</string>
-    <string name="action_refresh">Refresh</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_deselect_all">Deselect all</string>
 
     <!-- Launcher Activity -->
     <string name="title_activity_launch">Caesium</string>
 
     <!-- Main Activity -->
     <string name="main_images">IMAGES</string>
-
     <string name="main_list_header_total">Total</string>
+    <string name="main_compressing">Compressing…</string>
 
     <!-- Preferences -->
+    <!-- Headers -->
     <string name="pref_header_info">Info</string>
     <string name="pref_header_compression">Compression</string>
+    <string name="pref_header_maintenance">Maintenance</string>
+    <!-- Compression section -->
     <string name="pref_compression_level_title">Compression level</string>
     <string name="pref_compression_level_default">65</string>
     <string-array name="pref_compression_level_entries">
@@ -32,18 +37,23 @@
     </string-array>
     <string name="pref_compression_exif_title">EXIF</string>
     <string name="pref_compression_exif_default">0</string>
-    <string-array name="pref_compression_exif_entries">
-        <item>Strip all metadata</item>
-        <item>Keep essentials</item>
-        <item>Keep all</item>
-    </string-array>
-    <string-array name="pref_compression_exif_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
+    <!-- Maintenance section -->
+    <string name="pref_maintenance_clear_database_title">Clear database</string>
+    <string name="pref_maintenance_clear_database_summary">All images will be considered uncompressed</string>
+    <!-- Info section -->
     <string name="pref_info_version_title">Version</string>
     <string name="pref_info_usage_title">Usage reports</string>
     <string name="pref_info_usage_summary">Send anonymous usage reports</string>
+
+    <!-- ClearDatabase Dialog -->
+    <string name="dialog_clear_database_title">Delete images database?</string>
+    <string name="dialog_clear_database_message">All the images you already compressed will be considered not as such. This will allow you to compress them again.\n\nThe application will be restarted.</string>
+    <string name="dialog_clear_database_confirm">Delete</string>
+    <string name="dialog_clear_database_cancel">Cancel</string>
+
+    <!-- Compression notification -->
+    <string name="notification_compress_title">Caesium</string>
+    <string name="notification_compress_description">Compressing…</string>
+    <string name="notification_compress_description_finished">Compression completed!</string>
 
 </resources>

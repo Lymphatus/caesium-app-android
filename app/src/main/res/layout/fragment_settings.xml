@@ -8,7 +8,9 @@
 
     <PreferenceCategory
         android:key="pref_key_header_compression"
-        android:title="@string/pref_header_compression">
+        android:title="@string/pref_header_compression"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ListPreference
             android:defaultValue="@string/pref_compression_level_default"
@@ -16,13 +18,26 @@
             android:entries="@array/pref_compression_level_entries"
             android:entryValues="@array/pref_compression_level_values"
             android:key="pref_key_compression_level"
-            android:title="@string/pref_compression_level_title" />
+            android:title="@string/pref_compression_level_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <com.saerasoft.caesium.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_key_compression_exif"
             android:title="@string/pref_compression_exif_title" />
 
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_header_maintenance"
+        android:title="@string/pref_header_maintenance">
+
+        <Preference
+            android:key="pref_key_maintenance_clear_database"
+            android:title="@string/pref_maintenance_clear_database_title"
+            android:summary="@string/pref_maintenance_clear_database_summary"/>
 
     </PreferenceCategory>
 

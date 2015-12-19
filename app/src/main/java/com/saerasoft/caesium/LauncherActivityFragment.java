@@ -27,6 +27,7 @@ public class LauncherActivityFragment extends Fragment {
         ImageView logoImageView = (ImageView) rootView.findViewById(R.id.launchLogoImageView);
         TextView brandTextView = (TextView) rootView.findViewById(R.id.launchTextView);
         ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.launchProgressBar);
+        TextView betaTextView = (TextView) rootView.findViewById(R.id.launchBetaTextView);
 
         //Logo Animation
         Animation launcherIn = AnimationUtils.loadAnimation(getContext(), R.anim.launcher_logo_in);
@@ -35,6 +36,7 @@ public class LauncherActivityFragment extends Fragment {
         //Brand animation
         Animation brandIn = AnimationUtils.loadAnimation(getContext(), R.anim.list_item_up);
         brandTextView.startAnimation(brandIn);
+        betaTextView.startAnimation(brandIn);
 
         //ProgressBar Color by applying a white filter
         progressBar.getIndeterminateDrawable()
