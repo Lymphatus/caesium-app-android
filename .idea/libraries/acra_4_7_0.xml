@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="acra-4.7.0">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/ch.acra/acra/4.7.0/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/ch.acra/acra/4.7.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.acra/acra/4.7.0/bee23b2b36e774223bdf3a84d46547680bf616f9/acra-4.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

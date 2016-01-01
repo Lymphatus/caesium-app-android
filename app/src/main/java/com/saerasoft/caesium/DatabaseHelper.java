@@ -148,8 +148,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] projection = {
                 DatabaseContract.ImageEntry.COLUMN_NAME_PATH,
                 DatabaseContract.ImageEntry.COLUMN_NAME_TIMESTAMP,
-                DatabaseContract.ImageEntry.COLUMN_NAME_NEW,
-                DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP
         };
 
         //Use path as where clause
@@ -169,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Check if the cursor is not empty, meaning we have and hit
         if (cursor.moveToFirst()) {
             //The images already exists, check if it has been modified
-            if (cImage.getTimestamp() > cursor.getLong(3)) {
+            if (cImage.getTimestamp() > cursor.getLong(1)) {
                 //Cursor has done its job, we don't need to evaluate more
                 //The image timestamp is higher, image MODIFIED
                 Log.d("Database", "MODIFIED: " + cursor.getString(0));

@@ -8,8 +8,8 @@ android {
         applicationId "com.saerasoft.caesium"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "0.5.0-beta"
+        versionCode 9
+        versionName "0.5.1-beta"
     }
     buildTypes {
         release {
@@ -32,4 +32,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'ch.acra:acra:4.7.0'
 }

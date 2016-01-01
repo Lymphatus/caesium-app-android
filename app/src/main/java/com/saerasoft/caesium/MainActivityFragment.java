@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
+import java.util.concurrent.ExecutionException;
+
 public class MainActivityFragment extends Fragment {
 
     public final static String BUNDLE_HEADER_COLLECTION = "com.saerasoft.caesium.B_HEADER_COLLECTION";

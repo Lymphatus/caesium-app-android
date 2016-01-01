@@ -28,7 +28,6 @@ public class LauncherActivity extends AppCompatActivity {
         ImageScanAsyncTask scanTask = new ImageScanAsyncTask();
 
         //If it's not already running, start it
-        //TODO Make a status bar notification
         if (!(scanTask.getStatus() == AsyncTask.Status.RUNNING)) {
             scanTask.execute(this);
         }

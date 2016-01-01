@@ -56,4 +56,10 @@
     <string name="notification_compress_description">Compressing…</string>
     <string name="notification_compress_description_finished">Compression completed!</string>
 
+    <!-- Crash Report -->
+
+    <string name="crash_dialog_text">An unexpected error occurred. Please help us by sending error data.</string>
+    <string name="crash_dialog_comment_prompt">You might add your comments:</string>
+    <string name="crash_dialog_ok_toast">Thanks!</string>
+
 </resources>
