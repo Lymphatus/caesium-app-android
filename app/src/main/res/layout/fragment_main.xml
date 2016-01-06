@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:tag="mainFragment"
-    tools:context="com.saerasoft.caesium.MainActivity$MainFragment">
+    tools:context="com.saerasoft.caesium.MainActivity$MainFragment"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"

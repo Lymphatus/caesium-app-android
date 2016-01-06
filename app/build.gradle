@@ -8,8 +8,8 @@ android {
         applicationId "com.saerasoft.caesium"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 10
-        versionName "0.5.2-beta"
+        versionCode 11
+        versionName "0.5.3-beta"
     }
     buildTypes {
         release {

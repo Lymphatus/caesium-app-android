@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
@@ -37,6 +39,23 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
 
+    }
+
+    public static void scanFinished(Context context, CHeaderCollection headerCollection) {
+        collection = headerCollection;
+
+        // Create fragment and give it an argument specifying the article it should show
+        MainActivityFragment newFragment = new MainActivityFragment();
+
+        FragmentTransaction transaction = ((MainActivity)context).getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.launchFragment, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
     }
 
     public static void onPreCompress() {
@@ -106,12 +125,12 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
 
-        if (savedInstanceState != null) {
-            collection = savedInstanceState.getParcelable(BUNDLE_HEADER_COLLECTION);
-        }
         mContext = getContext();
+
+        //Hide the ActionBar for the splash
+        //noinspection ConstantConditions
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
@@ -129,12 +148,6 @@ public class MainActivityFragment extends Fragment {
         FloatingActionButton compressButton = (FloatingActionButton) rootView.findViewById(R.id.mainCompressButton);
         TextView imagesSizeTextView = (TextView) rootView.findViewById(R.id.mainImagesSizeTextView);
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.mainSwipeRefresh);
-
-        if (getActivity().getIntent()
-                .getParcelableExtra(LauncherActivity.EXTRA_HEADER_COLLECTION) != null) {
-            collection = getActivity().getIntent()
-                    .getParcelableExtra(LauncherActivity.EXTRA_HEADER_COLLECTION);
-        }
 
         //Create an instance of the adapter for the list
         CHeaderAdapter adapter = new CHeaderAdapter(collection, getContext());

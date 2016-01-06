@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="http://saerasoft.com/caesium/app/images/pic02.jpg" alt="screenshot" width="200px" />
-<br />v0.5.2-beta (build 20160102)
+<br />v0.5.3-beta (build 20160106)
 </p>
 
 > A Caesium version featuring lossy and lossless image compression for mobile devices.

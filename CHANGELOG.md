@@ -1,6 +1,12 @@
 ## CaesiumAPP Android (Cs-134)
 ### Changelog
 
+##### v0.5.3 (06/01/2016)
+
+- Fixed crash after the splash screen for devices with a lot of images
+
+----------
+
 ##### v0.5.2 (02/01/2016)
 
 - Fixed permission issue on Android 6.0+

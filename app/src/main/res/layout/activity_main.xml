@@ -1,7 +1,20 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainFragment"
     android:name="com.saerasoft.caesium.MainActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_main" />
+    tools:layout="@layout/fragment_main" /> -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff">
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/launchFragment"
+        android:name="com.saerasoft.caesium.LauncherActivityFragment"
+        tools:layout="@layout/fragment_launch" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="launchFragment" />
+</LinearLayout>

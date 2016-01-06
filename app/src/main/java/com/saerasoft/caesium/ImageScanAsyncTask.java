@@ -112,6 +112,6 @@ public class ImageScanAsyncTask extends AsyncTask<Activity, Integer, CHeaderColl
 
     protected void onPostExecute(CHeaderCollection cHeaders) {
         Log.d("ImageScan", "Scan completed.");
-        LauncherActivity.scanFinished(mContext, cHeaders);
+        MainActivityFragment.scanFinished(mContext, cHeaders);
     }
 }
