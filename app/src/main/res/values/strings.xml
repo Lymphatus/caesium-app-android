@@ -1,65 +1,68 @@
 <resources>
     <string name="app_name">Caesium</string>
-    <string name="app_beta">BETA</string>
+    <string name="title_activity_settings">Settings</string>
 
-    <!-- Menu actions -->
-    <string name="action_settings">Settings</string>
-    <string name="action_select_all">Select all</string>
-    <string name="action_deselect_all">Deselect all</string>
+    <!-- Strings related to Settings -->
 
-    <!-- Launcher Activity -->
-    <string name="title_activity_launch">Caesium</string>
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
 
-    <!-- Main Activity -->
-    <string name="main_images">IMAGES</string>
-    <string name="main_list_header_total">Total</string>
-    <string name="main_compressing">Compressing…</string>
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
 
-    <!-- Preferences -->
-    <!-- Headers -->
-    <string name="pref_header_info">Info</string>
-    <string name="pref_header_compression">Compression</string>
-    <string name="pref_header_maintenance">Maintenance</string>
-    <!-- Compression section -->
-    <string name="pref_compression_level_title">Compression level</string>
-    <string name="pref_compression_level_default">65</string>
-    <string-array name="pref_compression_level_entries">
-        <item>Low</item>
-        <item>Medium</item>
-        <item>High</item>
-        <item>Lossless</item>
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
     </string-array>
-    <string-array name="pref_compression_level_values">
-        <item>80</item>
-        <item>65</item>
-        <item>50</item>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
         <item>0</item>
+        <item>-1</item>
     </string-array>
-    <string name="pref_compression_exif_title">EXIF</string>
-    <string name="pref_compression_exif_default">0</string>
-    <!-- Maintenance section -->
-    <string name="pref_maintenance_clear_database_title">Clear database</string>
-    <string name="pref_maintenance_clear_database_summary">All images will be considered uncompressed</string>
-    <!-- Info section -->
-    <string name="pref_info_version_title">Version</string>
-    <string name="pref_info_usage_title">Usage reports</string>
-    <string name="pref_info_usage_summary">Send anonymous usage reports</string>
 
-    <!-- ClearDatabase Dialog -->
-    <string name="dialog_clear_database_title">Delete images database?</string>
-    <string name="dialog_clear_database_message">All the images you already compressed will be considered not as such. This will allow you to compress them again.\n\nThe application will be restarted.</string>
-    <string name="dialog_clear_database_confirm">Delete</string>
-    <string name="dialog_clear_database_cancel">Cancel</string>
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
 
-    <!-- Compression notification -->
-    <string name="notification_compress_title">Caesium</string>
-    <string name="notification_compress_description">Compressing…</string>
-    <string name="notification_compress_description_finished">Compression completed!</string>
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
 
-    <!-- Crash Report -->
+    <string name="pref_title_system_sync_settings">System sync settings</string>
 
-    <string name="crash_dialog_text">An unexpected error occurred. Please help us by sending error data.</string>
-    <string name="crash_dialog_comment_prompt">You might add your comments:</string>
-    <string name="crash_dialog_ok_toast">Thanks!</string>
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
 
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

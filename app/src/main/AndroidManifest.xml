@@ -2,49 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.saerasoft.caesium">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:launchMode="singleInstance"
-        android:theme="@style/AppTheme"
-        android:name=".Caesium" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+        </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize">
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saerasoft.caesium.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.saerasoft.caesium.MainActivity" />
-        </activity>
-
-        <activity android:name="org.acra.CrashReportDialog"
-            android:theme="@style/AppCompatAlertDialog"
-            android:process=":error_report"
-            android:launchMode="singleInstance"
-            android:excludeFromRecents="true"
-            android:finishOnTaskLaunch="true" />
-
-        <service
-            android:name=".NotificationKillerService"
-            android:enabled="true"
-            android:exported="true"/>
-
     </application>
 
 </manifest>

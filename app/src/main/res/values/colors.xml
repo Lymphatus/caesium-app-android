@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    
-    <color name="primary_500">#00BCD4</color>
-    <color name="primary_100">#B2EBF2</color>
-    <color name="primary_700">#0097A7</color>
-    <color name="primary_600">#00ACC1</color>
+    <color name="colorPrimary">#00bcd4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#FF9800</color>
 
-    <color name="accent_500">#FF9800</color>
-
-    <color name="grey_200">#EEEEEE</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="white_overlay">#99FFFFFF</color>
 </resources>

@@ -1,55 +1,32 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle"   tools:ignore="NewApi">@style/MyActionBar</item>
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
-        <item name="colorAccent">@color/accent_500</item>
-        <item name="colorPrimary">@color/primary_500</item>
-
-        <!-- Remove shadow below action bar Android < 5.0 -->
-        <item name="android:windowContentOverlay">@null</item>
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background" tools:ignore="NewApi">@color/primary_500</item>
-        <item name="background">@color/primary_500</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
-        <!-- remove shadow below action bar -->
-        <item name="android:elevation" tools:targetApi="lollipop">0dp</item>
-        <!-- Support library compatibility -->
-        <item name="elevation">0dp</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <!-- ActionBar title text -->
-    <style name="MyActionBarTitleText"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-    <item name="android:textColor">@color/white</item>
-    </style>
-
-
-    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
-    </style>
-
-    <style name="AppThemePreferences" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/primary_700</item>
-        <item name="colorAccent">@color/accent_500</item>
-        <item name="colorPrimary">@color/primary_500</item>
-
-        <!-- Remove shadow below action bar Android < 5.0 -->
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="AppCompatAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/accent_500</item>
-        <item name="android:textColorPrimary">@color/primary_500</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:padding">4dp</item>
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 
 </resources>
