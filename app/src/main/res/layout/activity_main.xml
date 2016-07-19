@@ -1,16 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.saerasoft.caesium.MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:tag="mainFragment"
+              tools:context="com.saerasoft.caesium.MainActivity"
+              android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:background="@color/colorPrimary"
+        android:elevation="6dp">
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:id="@+id/imagesArcProgress"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            custom:arc_finished_color="@color/white"
+            custom:arc_unfinished_color="@color/white_overlay"
+            custom:arc_suffix_text_size="0sp"
+            custom:arc_progress="1839"
+            custom:arc_max="4000"
+            custom:arc_text_color="@color/white"
+            custom:arc_bottom_text="..."
+            custom:arc_bottom_text_size="14sp"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listRecyclerView"
+                style="@style/Base.Widget.AppCompat.ListView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="false"
+                android:clipToPadding="false"
+                android:dividerHeight="1dp"
+                android:drawSelectorOnTop="true"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:longClickable="true"
+                android:overScrollFooter="@android:color/transparent"
+                android:overScrollHeader="@android:color/transparent"
+                android:paddingBottom="70dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/mainCompressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitXY"
+            app:elevation="10dp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="16dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
