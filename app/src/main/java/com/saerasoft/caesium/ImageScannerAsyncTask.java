@@ -76,7 +76,7 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
 
                 if (DatabaseHelper.hasToBeCompressed(db, cImage)) {
                     //This adds to the collection!!
-                    Log.i(TAG, "Has to be compressed: TRUE");
+                    //Log.i(TAG, "Has to be compressed: TRUE");
                     try {
                         String currentTitle = cHeaders.get(currentHeaderIndex).getTitle();
                         if (currentTitle.compareTo(cHeader.getTitle()) != 0) {
@@ -96,7 +96,7 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
                     publishProgress(++count, totalImagesCount, totalSize, (long) currentHeaderIndex + 1);
                 } else {
                     // TODO: 19/07/16 Remove this 
-                    Log.i(TAG, "Has to be compressed: FALSE");
+                    //Log.i(TAG, "Has to be compressed: FALSE");
                 }
             }
             cursor.close();

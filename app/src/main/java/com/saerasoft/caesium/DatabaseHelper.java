@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static long insertNewImage(SQLiteDatabase db, CImage cImage) {
-        Log.i("DatabaseHelper", "Inserting new image");
+        //Log.i("DatabaseHelper", "Inserting new image");
         //Create a whole new set of values
         ContentValues values = populateAllWithDefaultValues(cImage);
 
@@ -125,13 +125,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             //It exists, check if has to be compressed or not
-            Log.i("DatabaseHelper", "Exists: TRUE");
+            //Log.i("DatabaseHelper", "Exists: TRUE");
             hasToBeCompressed = cursor.getLong(1) < cImage.getTimestamp();
-            Log.i("DatabaseHelper", "DB stamp:" + cursor.getLong(1)
-            + " - Image stamp: " + cImage.getTimestamp());
+            //Log.i("DatabaseHelper", "DB stamp:" + cursor.getLong(1)
+            //+ " - Image stamp: " + cImage.getTimestamp());
         } else {
             //NOW exists and has to be compressed
-            Log.i("DatabaseHelper", "Exists: FALSE");
+            //Log.i("DatabaseHelper", "Exists: FALSE");
             hasToBeCompressed = insertNewImage(db, cImage) > 0;
         }
         cursor.close();

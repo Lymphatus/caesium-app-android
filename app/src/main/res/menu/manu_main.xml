@@ -2,7 +2,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_select_all" android:title="Deselect all"
+    <item android:id="@+id/action_select_all" android:title="@string/action_deselect_all"
+          android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_order" android:title="@string/action_order"
           android:orderInCategory="100" app:showAsAction="never" />
 
     <item android:id="@+id/action_settings" android:title="@string/action_settings"

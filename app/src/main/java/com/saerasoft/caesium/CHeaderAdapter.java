@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lymphatus on 12/07/16.
@@ -29,9 +31,25 @@ import java.util.Formatter;
 public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHolder> {
 
     public enum HeaderListSortOrder {
-        FILE_SIZES,
-        LENGTH,
-        TITLE
+        FILE_SIZES(0),
+        LENGTH(1),
+        TITLE(2);
+
+        private int order;
+
+        private static Map<Integer, HeaderListSortOrder> map = new HashMap<Integer, HeaderListSortOrder>();
+
+        static {
+            for (HeaderListSortOrder legEnum : HeaderListSortOrder.values()) {
+                map.put(legEnum.order, legEnum);
+            }
+        }
+
+        private HeaderListSortOrder(final int index) { order = index; }
+
+        public static HeaderListSortOrder valueOf(int index) {
+            return map.get(index);
+        }
     }
 
     private ArrayList<CHeader> mCHeaders;
@@ -186,5 +204,6 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
                 return 0;
             }
         });
+        notifyDataSetChanged();
     }
 }

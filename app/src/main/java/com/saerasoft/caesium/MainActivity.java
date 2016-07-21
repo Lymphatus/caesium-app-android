@@ -2,6 +2,7 @@ package com.saerasoft.caesium;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -83,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                     .getAdapter();
 
             adapter.setAllSelected(totalSelectedItems != adapter.getItemCount());
+        } else if (id == R.id.action_order) {
+            DialogFragment dialogFragment = new ListOrderDialogFragment();
+            dialogFragment.show(getFragmentManager(), "order");
         }
 
         return super.onOptionsItemSelected(item);
@@ -112,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
         CHeaderAdapter adapter = (CHeaderAdapter) ((RecyclerView) mainView.findViewById(R.id.listRecyclerView))
                 .getAdapter();
-        // TODO: 19/07/16 This should be a preference
-        adapter.addCollection(cHeaders, CHeaderAdapter.HeaderListSortOrder.FILE_SIZES);
+        int order = ((Activity) mContext).getPreferences(Context.MODE_PRIVATE).getInt(
+                mContext.getString(R.string.sort_order_key), 0);
+        adapter.addCollection(cHeaders, CHeaderAdapter.HeaderListSortOrder.valueOf(order));
         mainView.findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
