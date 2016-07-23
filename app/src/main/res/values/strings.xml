@@ -7,6 +7,7 @@
     <!-- Menu Entries -->
     <string name="action_settings">Settings</string>
     <string name="action_deselect_all">Deselect all</string>
+    <string name="action_select_all">Select all</string>
     <string name="action_order">Order by…</string>
 
     <!-- Order Dialog -->

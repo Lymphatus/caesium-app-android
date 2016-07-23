@@ -62,6 +62,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.manu_main, menu);
+        Log.d("Main", "Inflating menu");
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        CHeaderAdapter adapter = (CHeaderAdapter) ((RecyclerView) ((Activity) mContext)
+                .getWindow().getDecorView().findViewById(R.id.listRecyclerView))
+                .getAdapter();
+
+        if (totalSelectedItems != adapter.getItemCount()) {
+            menu.findItem(R.id.action_select_all).setTitle(getString(R.string.action_select_all));
+        } else {
+            menu.findItem(R.id.action_select_all).setTitle(getString(R.string.action_deselect_all));
+        }
 
         return true;
     }
@@ -84,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     .getAdapter();
 
             adapter.setAllSelected(totalSelectedItems != adapter.getItemCount());
+            invalidateOptionsMenu();
         } else if (id == R.id.action_order) {
             DialogFragment dialogFragment = new ListOrderDialogFragment();
             dialogFragment.show(getFragmentManager(), "order");
