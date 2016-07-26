@@ -4,64 +4,52 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.github.lzyzsd.circleprogress.ArcProgress;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
+/*
  * Created by lymphatus on 12/07/16.
  */
 public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHolder> {
 
-    public enum HeaderListSortOrder {
-        FILE_SIZES(0),
-        LENGTH(1),
-        TITLE(2);
-
-        private int order;
-
-        private static Map<Integer, HeaderListSortOrder> map = new HashMap<Integer, HeaderListSortOrder>();
-
-        static {
-            for (HeaderListSortOrder legEnum : HeaderListSortOrder.values()) {
-                map.put(legEnum.order, legEnum);
-            }
-        }
-
-        private HeaderListSortOrder(final int index) { order = index; }
-
-        public static HeaderListSortOrder valueOf(int index) {
-            return map.get(index);
-        }
-    }
-
-    private ArrayList<CHeader> mCHeaders;
     private static Context mContext;
+    private ArrayList<CHeader> mCHeaders;
     private int lastPosition = -1;
-
-    public CHeaderAdapter(ArrayList<CHeader> cHeaders) {
-        this.mCHeaders = cHeaders;
-    }
 
     public CHeaderAdapter() {
         mCHeaders = new ArrayList<>();
+    }
+
+    // TODO: 19/07/16 Should we animate the count up and down?
+    public static void updateCount(int deltaProgress, long deltaSize, boolean sign) {
+        //Ok, this is just a trick to decide which sign should the following operations have
+        int dir = sign ? 1 : -1;
+
+        ArcProgress arcProgress = ((ArcProgress) ((Activity) mContext).getWindow().getDecorView()
+                .findViewById(R.id.imagesArcProgress));
+
+        MainActivity.totalItems = MainActivity.totalItems + dir * deltaProgress;
+
+        arcProgress.setMax(MainActivity.totalItems);
+        arcProgress.setProgress(MainActivity.totalItems);
+
+        long total = MainActivity.totalSelectedFileSize + dir * deltaSize;
+        arcProgress.setBottomText(android.text.format.Formatter.formatShortFileSize(mContext,
+                total));
+        MainActivity.totalSelectedFileSize = total;
+
+        MainActivity.totalSelectedItems += dir;
     }
 
     @Override
@@ -121,56 +109,12 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
         return mCHeaders.size();
     }
 
-    public ArrayList<CHeader> getCHeaders() {
-        return mCHeaders;
-    }
-
-    // TODO: 19/07/16 Should we animate the count up and down?
-    public static void updateCount(int deltaProgress, long deltaSize, boolean sign) {
-        //Ok, this is just a trick to decide which sign should the following operations have
-        int dir = sign ? 1 : -1;
-
-        ArcProgress arcProgress = ((ArcProgress) ((Activity) mContext).getWindow().getDecorView()
-                .findViewById(R.id.imagesArcProgress));
-
-        MainActivity.totalItems = MainActivity.totalItems + dir * deltaProgress;
-
-        arcProgress.setMax(MainActivity.totalItems);
-        arcProgress.setProgress(MainActivity.totalItems);
-
-        long total = MainActivity.totalSelectedFileSize + dir * deltaSize;
-        arcProgress.setBottomText(android.text.format.Formatter.formatShortFileSize(mContext,
-                total));
-        MainActivity.totalSelectedFileSize = total;
-
-        MainActivity.totalSelectedItems += dir;
-    }
-
     public int addCollection(ArrayList<CHeader> cHeaders, HeaderListSortOrder order) {
         mCHeaders.clear();
         mCHeaders.addAll(cHeaders);
         this.sortList(order);
         this.notifyDataSetChanged();
         return cHeaders.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public CheckBox headerCheckBox;
-        public TextView headerTitleTextView;
-        public TextView headerSubtitleTextView;
-        public ImageView headerLogoImageView;
-        public TextView headerLogoTextView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            headerCheckBox = (CheckBox) itemView.findViewById(R.id.headerCheckBox);
-            headerTitleTextView = (TextView) itemView.findViewById(R.id.headerTitleTextView);
-            headerSubtitleTextView = (TextView) itemView.findViewById(R.id.headerSubtitleTextView);
-            headerLogoTextView = (TextView) itemView.findViewById(R.id.headerLogoTextView);
-            headerLogoImageView = (ImageView) itemView.findViewById(R.id.headerLogoImageView);
-        }
     }
 
     public void setAllSelected(boolean selected) {
@@ -205,5 +149,46 @@ public class CHeaderAdapter extends RecyclerView.Adapter<CHeaderAdapter.ViewHold
             }
         });
         notifyDataSetChanged();
+    }
+
+    public enum HeaderListSortOrder {
+        FILE_SIZES(0),
+        LENGTH(1),
+        TITLE(2);
+
+        private static Map<Integer, HeaderListSortOrder> map = new HashMap<>();
+
+        static {
+            for (HeaderListSortOrder legEnum : HeaderListSortOrder.values()) {
+                map.put(legEnum.order, legEnum);
+            }
+        }
+
+        private int order;
+
+        HeaderListSortOrder(final int index) { order = index; }
+
+        public static HeaderListSortOrder valueOf(int index) {
+            return map.get(index);
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public CheckBox headerCheckBox;
+        public TextView headerTitleTextView;
+        public TextView headerSubtitleTextView;
+        public ImageView headerLogoImageView;
+        public TextView headerLogoTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            headerCheckBox = (CheckBox) itemView.findViewById(R.id.headerCheckBox);
+            headerTitleTextView = (TextView) itemView.findViewById(R.id.headerTitleTextView);
+            headerSubtitleTextView = (TextView) itemView.findViewById(R.id.headerSubtitleTextView);
+            headerLogoTextView = (TextView) itemView.findViewById(R.id.headerLogoTextView);
+            headerLogoImageView = (ImageView) itemView.findViewById(R.id.headerLogoImageView);
+        }
     }
 }

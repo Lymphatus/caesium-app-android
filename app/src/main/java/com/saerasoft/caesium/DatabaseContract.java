@@ -2,7 +2,7 @@ package com.saerasoft.caesium;
 
 import android.provider.BaseColumns;
 
-/**
+/*
  * Created by lymphatus on 18/07/16.
  */
 public class DatabaseContract {

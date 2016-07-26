@@ -1,13 +1,10 @@
 package com.saerasoft.caesium;
 
-import android.graphics.BitmapFactory;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 
 import java.io.File;
 
-/**
+/*
  * Created by lymphatus on 10/07/16.
  */
 

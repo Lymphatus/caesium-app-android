@@ -1,17 +1,15 @@
 package com.saerasoft.caesium;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /*
  * Created by lymphatus on 10/07/16.
@@ -19,13 +17,18 @@ import java.util.Objects;
 public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CHeader>> {
 
     private static final String TAG = "ImageScannerAsyncTask";
-    //Make it local
-    private Context mContext;
+
+    private long startTime;
+
+    @Override
+    protected void onPreExecute() {
+        startTime = SystemClock.elapsedRealtime();
+    }
 
     @Override
     protected ArrayList<CHeader> doInBackground(Context... params) {
 
-        mContext = params[0];
+        Context context = params[0];
 
         // TODO: 19/07/16 Check if the SD Card is included (should be)
         Uri uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -36,7 +39,7 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
                 MediaStore.Images.Media.MIME_TYPE
         };
 
-        Cursor cursor = mContext.getContentResolver()
+        Cursor cursor = context.getContentResolver()
                 .query(uri,
                         projection,
                         null,
@@ -50,7 +53,7 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
             int mimeIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE);
 
             ArrayList<CHeader> cHeaders = new ArrayList<>();
-            SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+            SQLiteDatabase db = new DatabaseHelper(context).getWritableDatabase();
 
             /*
              * This keeps the current iteration step
@@ -74,9 +77,10 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
 
                 Log.i("DatabaseHelper", cImage.getPath());
 
+                //if (true) {
                 if (DatabaseHelper.hasToBeCompressed(db, cImage)) {
                     //This adds to the collection!!
-                    //Log.i(TAG, "Has to be compressed: TRUE");
+                    Log.i(TAG, "Has to be compressed: TRUE");
                     try {
                         String currentTitle = cHeaders.get(currentHeaderIndex).getTitle();
                         if (currentTitle.compareTo(cHeader.getTitle()) != 0) {
@@ -96,7 +100,7 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
                     publishProgress(++count, totalImagesCount, totalSize, (long) currentHeaderIndex + 1);
                 } else {
                     // TODO: 19/07/16 Remove this 
-                    //Log.i(TAG, "Has to be compressed: FALSE");
+                    Log.i(TAG, "Has to be compressed: FALSE");
                 }
             }
             cursor.close();
@@ -110,6 +114,8 @@ public class ImageScannerAsyncTask extends AsyncTask<Context, Long, ArrayList<CH
     }
 
     protected void onPostExecute(ArrayList<CHeader> cHeaders) {
+        long endTime = SystemClock.elapsedRealtime();
+        Log.d("Main", "Scan took: " + (endTime - startTime) + " ms");
         MainActivity.onScanFinished(cHeaders);
     }
 }

@@ -1,6 +1,5 @@
 package com.saerasoft.caesium;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -11,9 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
-
-/**
+/*
  * Created by lymphatus on 20/07/16.
  */
 public class ListOrderDialogFragment extends DialogFragment {

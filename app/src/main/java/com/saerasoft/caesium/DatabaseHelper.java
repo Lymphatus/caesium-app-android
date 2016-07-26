@@ -3,18 +3,17 @@ package com.saerasoft.caesium;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
+/*
  * Created by lymphatus on 18/07/16.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Caesium.db";
 
     /* Helper definitions */
@@ -94,14 +93,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 selectionArgs);
     }
 
-    public static boolean rowExists(SQLiteDatabase db, String path) {
-        return DatabaseUtils.longForQuery(db, "SELECT COUNT(*) FROM "
-                + DatabaseContract.ImageEntry.TABLE_NAME
-                + " WHERE " + DatabaseContract.ImageEntry.COLUMN_NAME_PATH + "=? LIMIT 1",
-                new String[] {path}) > 0;
-    }
-
     public static boolean hasToBeCompressed(SQLiteDatabase db, CImage cImage) {
+        // TODO: 23/07/16 This is fucking slow, you know? Find a faster way. 
         boolean hasToBeCompressed;
         //Get path and timestamp
         String[] projection = {
@@ -125,13 +118,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             //It exists, check if has to be compressed or not
-            //Log.i("DatabaseHelper", "Exists: TRUE");
+            Log.i("DatabaseHelper", "Exists: TRUE");
             hasToBeCompressed = cursor.getLong(1) < cImage.getTimestamp();
-            //Log.i("DatabaseHelper", "DB stamp:" + cursor.getLong(1)
-            //+ " - Image stamp: " + cImage.getTimestamp());
+            Log.i("DatabaseHelper", "DB stamp:" + cursor.getLong(1)
+            + " - Image stamp: " + cImage.getTimestamp());
         } else {
             //NOW exists and has to be compressed
-            //Log.i("DatabaseHelper", "Exists: FALSE");
+            Log.i("DatabaseHelper", "Exists: FALSE");
             hasToBeCompressed = insertNewImage(db, cImage) > 0;
         }
         cursor.close();
@@ -148,9 +141,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
         onCreate(sqLiteDatabase);
-    }
-
-    public static void deleteDatabase(SQLiteDatabase db) {
-        db.execSQL(SQL_DELETE_ENTRIES);
     }
 }

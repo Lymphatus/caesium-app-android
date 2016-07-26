@@ -3,7 +3,6 @@ package com.saerasoft.caesium;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
+/*
  * Created by lymphatus on 12/07/16.
  */
 public class CHeader implements Parcelable {
