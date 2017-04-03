@@ -7,9 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**
- * Created by lymphatus on 13/12/15.
- */
 public class ClearDatabaseDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -20,7 +17,7 @@ public class ClearDatabaseDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.dialog_clear_database_confirm, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //Delete the database
-                        getActivity().deleteDatabase(DatabaseHelper.DATABASE_NAME);
+                        //getActivity().deleteDatabase(DatabaseHelper.DATABASE_NAME);
 
                         //Restart the application
                         Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());

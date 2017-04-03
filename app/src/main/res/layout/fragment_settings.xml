@@ -1,32 +1,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
     <PreferenceCategory
-        android:key="pref_key_header_compression"
-        android:title="@string/pref_header_compression"
+        android:key="pref_key_header_quality"
+        android:title="@string/pref_header_quality"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ListPreference
-            android:defaultValue="@string/pref_compression_level_default"
-            android:dialogTitle="@string/pref_compression_level_title"
-            android:entries="@array/pref_compression_level_entries"
-            android:entryValues="@array/pref_compression_level_values"
-            android:key="pref_key_compression_level"
-            android:title="@string/pref_compression_level_title"
+            android:defaultValue="@string/pref_quality_level_default"
+            android:dialogTitle="@string/pref_quality_level_title"
+            android:entries="@array/pref_quality_level_entries"
+            android:entryValues="@array/pref_quality_level_values"
+            android:key="pref_key_quality_level"
+            android:title="@string/pref_quality_level_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.saerasoft.caesium.SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="true"
-            android:key="pref_key_compression_exif"
-            android:title="@string/pref_compression_exif_title" />
-
+            android:key="pref_key_quality_metadata"
+            android:summary="@string/pref_quality_metadata_summary"
+            android:title="@string/pref_quality_metadata_title" />
 
     </PreferenceCategory>
 
@@ -49,7 +49,7 @@
             android:key="pref_key_info_version"
             android:title="@string/pref_info_version_title" />
 
-        <com.saerasoft.caesium.SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="true"
             android:key="pref_key_info_usage"
             android:summary="@string/pref_info_usage_summary"

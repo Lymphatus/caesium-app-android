@@ -9,15 +9,14 @@ import android.view.MenuItem;
 public class SettingsActivity extends AppCompatActivity {
 
     //Options keys
-    public static final String KEY_COMPRESSION_LEVEL = "pref_key_compression_level";
-    public static final String KEY_COMPRESSION_EXIF = "pref_key_compression_exif";
+    public static final String KEY_QUALITY_LEVEL = "pref_key_quality_level";
+    public static final String KEY_QUALITY_METADATA = "pref_key_quality_metadata";
     public static final String KEY_INFO_VERSION = "pref_key_info_version";
     public static final String KEY_INFO_USAGE = "pref_key_info_usage";
     public static final String KEY_MAINTENANCE_CLEAR_DATABASE = "pref_key_maintenance_clear_database";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppThemePreferences);
         super.onCreate(savedInstanceState);
         setContentView(com.saerasoft.caesium.R.layout.activity_settings);
         if (savedInstanceState == null) {
@@ -50,4 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -1,19 +1,19 @@
 package com.saerasoft.caesium;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ListView;
 
 public class SettingsActivityFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    public SettingsActivityFragment() {
-
-    }
 
     @SuppressWarnings("ResourceType")
     @Override
@@ -34,8 +34,9 @@ public class SettingsActivityFragment extends PreferenceFragment implements Shar
         findPreference(SettingsActivity.KEY_INFO_VERSION).setSummary(appVersion);
 
         //Compression level summary
-        ListPreference compressionLevelListPreference = (ListPreference) findPreference(SettingsActivity.KEY_COMPRESSION_LEVEL);
-        findPreference(SettingsActivity.KEY_COMPRESSION_LEVEL).setSummary(compressionLevelListPreference.getEntry());
+        ListPreference compressionLevelListPreference = (ListPreference) findPreference(SettingsActivity.KEY_QUALITY_LEVEL);
+        findPreference(SettingsActivity.KEY_QUALITY_LEVEL).setSummary(compressionLevelListPreference.getEntry());
+
 
         /* --- Listeners --- */
 
@@ -67,13 +68,25 @@ public class SettingsActivityFragment extends PreferenceFragment implements Shar
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d("PREF", "ListenerCalled with " + key.toString());
+        Log.d("PREF", "ListenerCalled with " + key);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (key.equals(SettingsActivity.KEY_COMPRESSION_LEVEL)) {
-            ListPreference compressionTypePref = (ListPreference) findPreference(key);
+        if (key.equals(SettingsActivity.KEY_QUALITY_LEVEL)) {
+            ListPreference qualityTypePref = (ListPreference) findPreference(key);
             // Set summary to be the user-description for the selected value
-            compressionTypePref.setSummary(compressionTypePref.getEntry());
-            editor.putInt(SettingsActivity.KEY_COMPRESSION_LEVEL, Integer.parseInt(compressionTypePref.getValue()));
+            qualityTypePref.setSummary(qualityTypePref.getEntry());
+            editor.putString(SettingsActivity.KEY_QUALITY_LEVEL, qualityTypePref.getValue());
+        } else if (key.equals(SettingsActivity.KEY_QUALITY_METADATA)) {
+            SwitchPreference metadataPreference = (SwitchPreference) findPreference(key);
+            editor.putBoolean(SettingsActivity.KEY_QUALITY_METADATA, metadataPreference.isChecked());
         }
+        editor.apply();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ListView list = (ListView) getActivity().findViewById(android.R.id.list);
+        list.setDividerHeight(0);
     }
 }

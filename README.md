@@ -26,11 +26,6 @@
 
 ----------
 
-##### TODO
-* A LOT of bugfixes
-
-----------
-
 ##### RESOURCES
 * CaesiumAPP website - [http://saerasoft.com/caesium/app](http://saerasoft.com/caesium/app)
 * CaesiumAPP Android Git Repository - [https://github.com/Lymphatus/caesium-app-android](https://github.com/Lymphatus/caesium-app-android)

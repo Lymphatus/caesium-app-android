@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/listRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/listCheckBox"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:checked="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="19dp"/>
+
+    <TextView
+        android:id="@+id/listBucketItemsSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="26dp"/>
+
+    <TextView
+        android:id="@+id/listBucketName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/listCheckBox"
+        android:layout_toLeftOf="@+id/listBucketItemsSize"
+        android:layout_toRightOf="@+id/listCheckBox"
+        android:layout_toStartOf="@+id/listBucketItemsSize"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/listBucketSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/listBucketName"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/listBucketName"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/listCheckBox"
+        android:layout_toRightOf="@+id/listCheckBox"
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"/>
+
+    <ImageView
+        android:id="@+id/listColorIndicator"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"/>
+
+</RelativeLayout>
