@@ -1,12 +1,14 @@
 package com.saerasoft.caesium;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-class CBucket implements Comparable<CBucket> {
+class CBucket implements Comparable<CBucket>, Parcelable {
     public enum SortOrder {ITEMS_SIZE, SIZE}
 
     private Integer id;
@@ -109,5 +111,37 @@ class CBucket implements Comparable<CBucket> {
             default:
                 return (int) Math.signum((o.getItemsSize() - this.getItemsSize()));
         }
+    }
+
+    protected CBucket(Parcel in) {
+        size = in.readInt();
+        itemsSize = in.readLong();
+        name = in.readString();
+        checked = in.readByte() != 0;
+    }
+
+    public static final Creator<CBucket> CREATOR = new Creator<CBucket>() {
+        @Override
+        public CBucket createFromParcel(Parcel in) {
+            return new CBucket(in);
+        }
+
+        @Override
+        public CBucket[] newArray(int size) {
+            return new CBucket[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(size);
+        dest.writeLong(itemsSize);
+        dest.writeString(name);
+        dest.writeByte((byte) (checked ? 1 : 0));
     }
 }

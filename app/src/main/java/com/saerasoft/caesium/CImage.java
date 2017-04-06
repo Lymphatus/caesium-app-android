@@ -7,18 +7,21 @@ class CImage {
     private String name;
     private long modifiedTimestamp;
     private long size;
+    private String bucketName;
 
     CImage(int id,
            String name,
            String fullPath,
            long size,
-           long modifiedTimestamp) {
+           long modifiedTimestamp,
+           String bucketName) {
 
         this.id = id;
         this.fullPath = fullPath;
         this.name = name;
         this.modifiedTimestamp = modifiedTimestamp;
         this.size = size;
+        this.bucketName = bucketName;
     }
 
     /* -- Getters and Setters -- */
@@ -61,5 +64,13 @@ class CImage {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 }

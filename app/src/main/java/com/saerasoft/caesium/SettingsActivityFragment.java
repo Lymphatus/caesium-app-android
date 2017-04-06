@@ -89,4 +89,7 @@ public class SettingsActivityFragment extends PreferenceFragment implements Shar
         ListView list = (ListView) getActivity().findViewById(android.R.id.list);
         list.setDividerHeight(0);
     }
+
+    
+
 }

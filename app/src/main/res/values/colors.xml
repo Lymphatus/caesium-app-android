@@ -12,11 +12,4 @@
 
     <color name="white">#FFFFFF</color>
 
-    <!--Chart colors-->
-    <color name="chart_1">#2ecc71</color>
-    <color name="chart_2">#f1c40f</color>
-    <color name="chart_3">#e74c3c</color>
-    <color name="chart_4">#3498db</color>
-    <color name="chart_5">#ff8c9d</color>
-
 </resources>

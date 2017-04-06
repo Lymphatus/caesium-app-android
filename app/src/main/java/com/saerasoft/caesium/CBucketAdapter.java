@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,27 +75,12 @@ public class CBucketAdapter extends RecyclerView.Adapter<CBucketAdapter.ViewHold
         holder.sizeTextView.setText(String.valueOf(cBucket.getSize()));
         holder.itemsSizeTextView.setText(Formatter.formatShortFileSize(context, cBucket.getItemsSize()));
 
-        int[] indicatorColors = ((MainActivity)context).getIndicatorColors();
-
-        switch (position) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                holder.colorIndicator.setBackgroundColor(ContextCompat.getColor(context, indicatorColors[position]));
-                break;
-            default:
-                holder.colorIndicator.setBackgroundColor(ContextCompat.getColor(context, indicatorColors[4]));
-                break;
-        }
-
         //Set a checkbox listener
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (cBucket.isChecked() != isChecked) {
                     cBucket.setChecked(isChecked);
-                    //Set the header checked
                     updateMainUI();
                 }
             }
@@ -140,29 +124,6 @@ public class CBucketAdapter extends RecyclerView.Adapter<CBucketAdapter.ViewHold
     public void updateMainUI() {
         MainActivity mainActivity = ((MainActivity) context);
         mainActivity.updateValues();
-        PieChart pieChart = mainActivity.setPieChartData();
-        mainActivity.showPieChart(pieChart);
-
-//        //This holds the current image count
-//        int progress = mHeaders.getSelectedItemsImageCount();
-//
-//        //Set an animator
-//        ObjectAnimator animation = ObjectAnimator.ofInt(imagesCountArcProgress, "progress", progress);
-//        animation.setInterpolator(new DecelerateInterpolator());
-//
-//        //The only case in which the two progresses are the same is the first time we call
-//        //the animation
-//        if (progress == oldProgress) {
-//            animation.setDuration(1000);
-//            //TODO This delay is arbitrary, do some research about that
-//            //animation.setStartDelay(200);
-//        } else {
-//            animation.setDuration(500);
-//        }
-//        animation.start();
-//
-//        //Set the selected images size to the main text view
-//        imagesSizeTextView.setText(Formatter.formatFileSize(mContext, mHeaders.getSelectedItemsImageSize()));
     }
 
 

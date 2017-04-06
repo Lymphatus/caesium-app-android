@@ -1,11 +1,13 @@
 package com.saerasoft.caesium;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,35 +21,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
+import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MainActivityInterface{
+public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
-    private int bucketsCount = 0;
     private int imagesCount = 0;
     private long bucketsItemsSize = 0;
     private List<CBucket> bucketsList = new ArrayList<>();
-    private final int[] indicatorColors = {
-            R.color.chart_1,
-            R.color.chart_2,
-            R.color.chart_3,
-            R.color.chart_4,
-            R.color.chart_5,
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainActivity", "Called onCreate");
         setContentView(R.layout.activity_main);
 
         //Request runtime permissions
@@ -56,11 +51,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         //Map all the images of the device
         CBuckets cBuckets = getAllImages();
 
-        //Initialize the chart with all the data
-        PieChart pieChart = setPieChartData();
+        //ArcProgress
+        ArcProgress imagesCountArcProgress = (ArcProgress) findViewById(R.id.arcProgress);
+        TextView totalImagesSize = (TextView) findViewById(R.id.totalImagesSize);
 
-//      Show the pie chart
-        showPieChart(pieChart);
+        imagesCountArcProgress.setMax(this.imagesCount);
+        imagesCountArcProgress.setProgress(this.imagesCount);
+        totalImagesSize.setText(Formatter.formatFileSize(this, this.bucketsItemsSize));
 
         CBucketAdapter adapter = new CBucketAdapter(this.bucketsList, this);
 
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             //Start the preference activity
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_select_all) {
@@ -123,6 +120,30 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.d("MainActivity", "Called saveInstanceState");
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt("imagesCount", this.imagesCount);
+        savedInstanceState.putLong("bucketsItemsSize", this.bucketsItemsSize);
+        savedInstanceState.putParcelableArrayList("bucketsList", (ArrayList<? extends Parcelable>) this.bucketsList);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.d("MainActivity", "Called restoreInstanceState");
+        super.onRestoreInstanceState(savedInstanceState);
+
+        this.imagesCount = savedInstanceState.getInt("imagesCount");
+        this.bucketsItemsSize = savedInstanceState.getLong("bucketsItemsSize");
+        this.bucketsList = savedInstanceState.getParcelableArrayList("bucketsList");
+
+        updateUI();
+
+        ((RecyclerView) findViewById(R.id.listView)).setAdapter(new CBucketAdapter(this.bucketsList, this));
     }
 
     private void requestPermissions() {
@@ -161,59 +182,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
     }
 
-    public PieChart setPieChartData() {
-        List<PieEntry> entries = new ArrayList<>();
-        long topItemsSize = 0;
-
-        if (this.bucketsCount > 4) {
-            int j = 0;
-            for (int i = 0; i < this.bucketsCount; i++) {
-                CBucket cBucket = this.bucketsList.get(i);
-                if (cBucket.isChecked()) {
-                    long bucketSize = cBucket.getItemsSize();
-                    entries.add(new PieEntry(bucketSize, ""));
-                    topItemsSize += bucketSize;
-                    j++;
-                }
-                if (j == 4) {
-                    break;
-                }
-            }
-        }
-        entries.add(new PieEntry((this.bucketsItemsSize - topItemsSize), ""));
-
-
-        PieDataSet set = new PieDataSet(entries, "Buckets");
-        set.setColors(indicatorColors);
-        set.setDrawValues(false);
-        set.setDrawIcons(false);
-        PieChart pieChart = (PieChart) findViewById(R.id.pieChart);
-        PieData data = new PieData(set);
-        pieChart.setData(data);
-
-        return pieChart;
-    }
-
-    public void showPieChart(PieChart pieChart) {
-        //Styling
-        pieChart.setTransparentCircleRadius(75f);
-        pieChart.setCenterText(String.valueOf(this.imagesCount) + "\n" +
-                Formatter.formatFileSize(this, this.bucketsItemsSize));
-        pieChart.setCenterTextColor(ContextCompat.getColor(this, R.color.white));
-        pieChart.setCenterTextSize(26f);
-        pieChart.setCenterTextTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        pieChart.setDescription(null);
-        pieChart.setTransparentCircleAlpha(100);
-        pieChart.setHoleRadius(70f);
-        pieChart.getLegend().setEnabled(false);
-        pieChart.setHoleColor(ContextCompat.getColor(this, R.color.primary));
-
-        pieChart.animateX(800);
-        pieChart.animateY(800);
-        pieChart.invalidate();
-
-    }
-
     private CBuckets getAllImages() {
         ContentResolver cr = this.getContentResolver();
 
@@ -238,7 +206,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                         cur.getString(1),
                         cur.getString(2),
                         cur.getLong(3),
-                        cur.getLong(4));
+                        cur.getLong(4),
+                        cur.getString(6));
                 if (cBuckets.containsKey(bucketID)) {
                     CBucket cBucket = cBuckets.get(bucketID);
                     cBucket.getImagesList().add(cImage);
@@ -253,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
 
         this.bucketsList = cBuckets.sortList();
-        this.bucketsCount = this.bucketsList.size();
         this.bucketsItemsSize = cBuckets.getTotalItemsSize();
         this.imagesCount = count;
 
@@ -271,11 +239,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
         this.imagesCount = count;
         this.bucketsItemsSize = itemsSize;
+
+        updateUI();
     }
 
-    @Override
-    public int[] getIndicatorColors() {
-        return this.indicatorColors;
+    private void updateUI() {
+        ArcProgress imagesCountArcProgress = (ArcProgress) findViewById(R.id.arcProgress);
+        TextView totalImagesSize = (TextView) findViewById(R.id.totalImagesSize);
+
+        ObjectAnimator animation = ObjectAnimator.ofInt(imagesCountArcProgress, "progress", this.imagesCount);
+        animation.setInterpolator(new DecelerateInterpolator());
+
+        animation.setDuration(500);
+        animation.start();
+
+        imagesCountArcProgress.setProgress(this.imagesCount);
+        totalImagesSize.setText(Formatter.formatFileSize(this, this.bucketsItemsSize));
     }
 
     /**
