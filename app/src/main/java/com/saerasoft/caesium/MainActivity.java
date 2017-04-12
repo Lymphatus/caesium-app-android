@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private int imagesCount = 0;
     private long bucketsItemsSize = 0;
     private List<CBucket> bucketsList = new ArrayList<>();
+    private boolean alreadyScanned = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,28 +52,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         //Request runtime permissions
         requestPermissions();
 
-        //Map all the images of the device
-        CBuckets cBuckets = getAllImages();
-
-        //ArcProgress
-        ArcProgress imagesCountArcProgress = (ArcProgress) findViewById(R.id.arcProgress);
-        TextView totalImagesSize = (TextView) findViewById(R.id.totalImagesSize);
-
-        imagesCountArcProgress.setMax(this.imagesCount);
-        imagesCountArcProgress.setProgress(this.imagesCount);
-        totalImagesSize.setText(Formatter.formatFileSize(this, this.bucketsItemsSize));
-
-        CBucketAdapter adapter = new CBucketAdapter(this.bucketsList, this);
-
-        RecyclerView listView = (RecyclerView) findViewById(R.id.listView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        listView.setLayoutManager(linearLayoutManager);
-        listView.setAdapter(adapter);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(listView.getContext(),
-                linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.list_divider));
-        listView.addItemDecoration(dividerItemDecoration);
+        if (!alreadyScanned) {
+            getSupportActionBar().hide();
+            getSupportFragmentManager().beginTransaction().add(R.id.overlay_fragment_container, new SplashFragment(), "splash").commit();
+            ImageScanAsyncTask imageScanner = new ImageScanAsyncTask();
+            if (!(imageScanner.getStatus() == AsyncTask.Status.RUNNING)) {
+                imageScanner.execute(this);
+            }
+        }
 
 //        Example of a call to a native method
 //        TextView tv = (TextView) findViewById(R.id.sample_text);
@@ -130,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         savedInstanceState.putInt("imagesCount", this.imagesCount);
         savedInstanceState.putLong("bucketsItemsSize", this.bucketsItemsSize);
         savedInstanceState.putParcelableArrayList("bucketsList", (ArrayList<? extends Parcelable>) this.bucketsList);
+        savedInstanceState.putBoolean("alreadyScanned", this.alreadyScanned);
     }
 
     @Override
@@ -140,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         this.imagesCount = savedInstanceState.getInt("imagesCount");
         this.bucketsItemsSize = savedInstanceState.getLong("bucketsItemsSize");
         this.bucketsList = savedInstanceState.getParcelableArrayList("bucketsList");
+        this.alreadyScanned = savedInstanceState.getBoolean("alreadyScanned");
 
         updateUI();
 
@@ -182,50 +174,36 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
     }
 
-    private CBuckets getAllImages() {
-        ContentResolver cr = this.getContentResolver();
+    public void onPostScan(int imagesCount, long bucketsItemsSize, List<CBucket> bucketsList) {
+        Log.d("MainActivity", "onPostScan");
+        this.imagesCount = imagesCount;
+        this.bucketsItemsSize = bucketsItemsSize;
+        this.bucketsList = bucketsList;
+        this.alreadyScanned =  true;
 
-        String[] columns = new String[]{
-                MediaStore.Images.ImageColumns._ID,
-                MediaStore.Images.ImageColumns.TITLE,
-                MediaStore.Images.ImageColumns.DATA,
-                MediaStore.Images.ImageColumns.SIZE,
-                MediaStore.Images.ImageColumns.DATE_MODIFIED,
-                MediaStore.Images.ImageColumns.BUCKET_ID,
-                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME};
+        Log.d("MainActivity", String.valueOf(this.imagesCount));
 
-        Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                columns, null, null, null);
-        CBuckets cBuckets = new CBuckets();
-        int count = 0;
-        if (cur != null) {
-            cur.moveToFirst();
-            while (cur.moveToNext()) {
-                Integer bucketID = cur.getInt(5);
-                CImage cImage = new CImage(cur.getInt(0),
-                        cur.getString(1),
-                        cur.getString(2),
-                        cur.getLong(3),
-                        cur.getLong(4),
-                        cur.getString(6));
-                if (cBuckets.containsKey(bucketID)) {
-                    CBucket cBucket = cBuckets.get(bucketID);
-                    cBucket.getImagesList().add(cImage);
-                } else {
-                    CBucket cBucket = new CBucket(cur.getInt(5), cur.getString(6));
-                    cBucket.getImagesList().add(cImage);
-                    cBuckets.put(bucketID, cBucket);
-                }
-                count++;
-            }
-            cur.close();
-        }
+        //ArcProgress
+        ArcProgress imagesCountArcProgress = (ArcProgress) findViewById(R.id.arcProgress);
+        TextView totalImagesSize = (TextView) findViewById(R.id.totalImagesSize);
 
-        this.bucketsList = cBuckets.sortList();
-        this.bucketsItemsSize = cBuckets.getTotalItemsSize();
-        this.imagesCount = count;
+        imagesCountArcProgress.setMax(this.imagesCount);
+        imagesCountArcProgress.setProgress(this.imagesCount);
+        totalImagesSize.setText(Formatter.formatFileSize(this, this.bucketsItemsSize));
 
-        return cBuckets;
+        CBucketAdapter adapter = new CBucketAdapter(this.bucketsList, this);
+
+        RecyclerView listView = (RecyclerView) findViewById(R.id.listView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(linearLayoutManager);
+        listView.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(listView.getContext(),
+                linearLayoutManager.getOrientation());
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.list_divider));
+        listView.addItemDecoration(dividerItemDecoration);
+
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("splash")).commit();
     }
 
     public void updateValues() {
@@ -256,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         imagesCountArcProgress.setProgress(this.imagesCount);
         totalImagesSize.setText(Formatter.formatFileSize(this, this.bucketsItemsSize));
     }
+
 
     /**
      * A native method that is implemented by the 'native-lib' native library,

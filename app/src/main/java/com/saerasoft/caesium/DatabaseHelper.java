@@ -50,20 +50,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.ImageEntry.COLUMN_NAME_PATH, cImage.getFullPath());
         values.put(DatabaseContract.ImageEntry.COLUMN_NAME_BUCKET, cImage.getBucketName());
         values.put(DatabaseContract.ImageEntry.COLUMN_NAME_TIMESTAMP, cImage.getModifiedTimestamp());
-        values.put(DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP, cImage.getModifiedTimestamp());
+        values.put(DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP, 0);
 
         return values;
     }
 
-    public static long insertImageIntoDatabase(SQLiteDatabase db, CImage cImage) {
+    public static long insertImage(SQLiteDatabase db, CImage cImage) {
         //Create a whole new set of values
         ContentValues values = populateAllEntries(cImage);
 
         //Insert the new image into the database
         //The returning value is the ID of the new row
-        return db.insert(DatabaseContract.ImageEntry.TABLE_NAME,
+        return db.insertWithOnConflict(DatabaseContract.ImageEntry.TABLE_NAME,
                 null,
-                values);
+                values,
+                SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     public static int hitImageRow(SQLiteDatabase db, String path, long timestamp) {
@@ -121,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Get path and timestamp
         String[] projection = {
                 DatabaseContract.ImageEntry.COLUMN_NAME_PATH,
-                DatabaseContract.ImageEntry.COLUMN_NAME_TIMESTAMP,
+                DatabaseContract.ImageEntry.COLUMN_NAME_HIT_TIMESTAMP,
         };
 
         //Use path as where clause
@@ -194,34 +195,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         MODIFIED,
         EQUAL
     }
-
-    public static void databaseRoutine(SQLiteDatabase db, CImage image, Boolean compression) {
-        //This methods updates the database
-        //Cleaning is done while compressing
-
-        //Update fill and/or update each entry of the database according to the image
-
-        switch (getDatabaseTypeOfImage(db, image)) {
-            case NEW:
-                //Image is completely fresh, use the insert
-                Log.d("ImageScan", "NEW: " + image.getFullPath());
-                if (compression) {
-                    DatabaseHelper.insertImageIntoDatabase(db, image);
-                }
-                break;
-            case MODIFIED:
-                //The file exists but was modified since last time
-                DatabaseHelper.updateImageInfo(db, image);
-                break;
-            case EQUAL:
-                //Same image, do nothing
-                Log.d("ImageScan", "EQUAL: " + image.getFullPath());
-                break;
-            default:
-                break;
-        }
-    }
-
-    /* -- End of helper methods -- */
 
 }

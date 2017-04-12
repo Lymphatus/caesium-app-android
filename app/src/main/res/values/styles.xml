@@ -15,4 +15,9 @@
         <item name="elevation">0dp</item>
     </style>
 
+    <style name="NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

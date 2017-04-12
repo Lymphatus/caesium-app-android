@@ -6,7 +6,9 @@ package com.saerasoft.caesium;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MainActivityInterface {
     void updateValues();
+    void onPostScan(int imagesCount, long bucketsItemsSize, List<CBucket> bucketsList);
 }

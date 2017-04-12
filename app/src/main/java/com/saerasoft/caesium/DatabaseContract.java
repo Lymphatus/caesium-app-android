@@ -8,7 +8,7 @@ public class DatabaseContract {
     public static abstract class ImageEntry implements BaseColumns {
         public static final String TABLE_NAME = "images";
         public static final String COLUMN_NAME_PATH = "path";
-        public static final String COLUMN_NAME_BUCKET = "header";
+        public static final String COLUMN_NAME_BUCKET = "bucket";
         public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
         public static final String COLUMN_NAME_HIT_TIMESTAMP = "hit_timestamp";
     }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -63,3 +64,8 @@
         app:layout_constraintTop_toBottomOf="@+id/statsLayout"/>
 
 </android.support.constraint.ConstraintLayout>
+
+<FrameLayout android:id="@+id/overlay_fragment_container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+</merge>
