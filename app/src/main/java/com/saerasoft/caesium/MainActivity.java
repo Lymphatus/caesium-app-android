@@ -183,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
         Log.d("MainActivity", String.valueOf(this.imagesCount));
 
+        getSupportActionBar().show();
+
         //ArcProgress
         ArcProgress imagesCountArcProgress = (ArcProgress) findViewById(R.id.arcProgress);
         TextView totalImagesSize = (TextView) findViewById(R.id.totalImagesSize);

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Caesium</string>
+    <string name="app_subtitle">Photo Compressor</string>
     <string name="app_name_full">Caesium - Photo Compressor</string>
+    <string name="app_beta">Beta</string>
 
     <!--Main-->
     <string name="ui_images">IMAGES</string>
